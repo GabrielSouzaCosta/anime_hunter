@@ -1,6 +1,13 @@
 .icon {
     fill: black;
 }
-.icon:hover, .icon:visited {
+.icon:hover{
     fill: red;
+}
+
+.watch-icon {
+    fill: black;
+}
+.watch-icon:hover {
+    fill: rgb(236, 118, 21);
 }

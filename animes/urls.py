@@ -8,6 +8,9 @@ urlpatterns = [
     path('search_results/', views.search_animes_view, name='search_animes'),
     path('animes/<int:id>/', views.anime_details, name='anime_details'),
     path('top/', views.top_animes, name='top_animes'), 
-    path('upcoming/', views.upcoming_animes, name='upcoming_animes')
+    path('upcoming/', views.upcoming_animes, name='upcoming_animes'),
+    path('add_favorite/<int:anime_id>/', views.add_favorite, name='add_favorite'),
+    path('add_to_watchlist/<int:anime_id>/', views.add_to_watchlist, name='add_to_watchlist'),
+    path('remove_favorite/<int:anime_id>', views.remove_favorite, name='remove_favorite'),
 ]
  

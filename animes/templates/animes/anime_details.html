@@ -11,15 +11,47 @@
                 <p>Status: {{ anime.status }}</p>
                 <span>
                     {% if user.is_authenticated %}
-                    <form action="" method="post"></form>
-                    <button class="btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-heart-fill icon my-1" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                        </svg>
-                        Add to my favorites
-                    </button>
-                    {% else %}
-                    <a href="{% url 'authentication:login' %}?next={{ request.path }}" class="btn btn-success my-1">Login to add as favorite</a>
+                        {% if is_favorite %}
+                        <form action="{% url 'animes:remove_favorite' anime.mal_id %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn" type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="red" width="16" height="16" class="bi bi-heart-fill m-1" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                </svg>
+                                Remove from my favorites
+                            </button>
+                        </form>
+                        {% else %}
+                        <form action="{% url 'animes:add_favorite' anime.mal_id %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn" type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-heart-fill icon m-1" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                </svg>
+                                Add to my favorites
+                            </button>
+                            <input type="hidden" name="name" value="{{ anime.title }}">
+                            <input type="hidden" name="image_url" value="{{ anime.image_url }}">
+                        </form>
+                        {% endif %}
+
+                        {% if is_on_watchlist %}
+                        {% else %}
+                            <form action="{% url 'animes:add_to_watchlist' anime.mal_id %}" method="post">
+                                {% csrf_token %}
+                                <button class="btn" type="submit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-fill watch-icon m-1" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                    </svg>
+                                    Add to my Watchlist
+                                </button>
+                                <input type="hidden" name="name" value="{{ anime.title }}">
+                                <input type="hidden" name="image_url" value="{{ anime.image_url }}">
+                            </form>
+                        {% endif %}
+
+                        {% else %}
+                    <a href="{% url 'authentication:login' %}?next={{ request.path }}" class="btn btn-success my-1">Login to add to Watchlist</a>
                     {% endif %}
                 </span>
             </div>

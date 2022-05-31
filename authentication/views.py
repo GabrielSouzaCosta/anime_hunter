@@ -1,5 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
+
+from animes.models import Favorite, Watchlist_item
 from .forms import NewUserForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -42,12 +44,9 @@ def register(request):
         
     return render(request, 'authentication/register.html', {'form': form, 'msg': msg})
 
-def profile(request):
-    if not request.user.is_authenticated:
-        return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
-    return render(request, 'authentication/profile.html')
-
 def user_list(request):
     if not request.user.is_authenticated:
         return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
-    return render(request, 'authentication/user_list.html')
+    favorites = Favorite.objects.filter(user=request.user)
+    watchlist_items = Watchlist_item.objects.filter(user=request.user)
+    return render(request, 'authentication/user_list.html', {'favorites': favorites, 'watchlist_items': watchlist_items})

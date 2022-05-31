@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid mt-2">
+    <div class="d-flex">
+        <div class="col-2">
+            <div class="d-flex flex-column justify-content-center align-items-center">
+                <img src="{{ anime.image_url }}" alt="" class="btn img-fluid float-start me-2 w-100">
+                <span class="fw-bold fs-2 ms-3">Rank: #{{ anime.rank }}</span>
+                <span class="fs-2">{{ anime.episodes }} episodes</span>
+                <p>Status: {{ anime.status }}</p>
+                <span>
+                    {% if user.is_authenticated %}
+                    <form action="" method="post"></form>
+                    <button class="btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-heart-fill icon my-1" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                        </svg>
+                        Add to my favorites
+                    </button>
+                    {% else %}
+                    <a href="{% url 'authentication:login' %}?next={{ request.path }}" class="btn btn-success my-1">Login to add as favorite</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <div class="col-10">
+            <h1 class="text-center py-2">{{ anime.title }} </h1> 
+            {% include 'accordion.html' %}    
+        </div>
+    </div>
+</div>
+{% endblock content %}

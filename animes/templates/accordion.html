@@ -1,0 +1,56 @@
+<div class="accordion d-flex mt-3" id="accordionExample">
+    <div class="accordion-item col-4">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Synopsis
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" >
+        <div class="accordion-body">
+            {{ anime.synopsis }}
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item col-4">
+      <h2 class="accordion-header" id="headingTwo">
+        <button class="accordion-button collapsed w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Seasons / OVA'S / Movies
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" >
+        <div class="accordion-body">
+          <form action="">
+
+            <h4>Episodes <input type="checkbox" name="all_episodes" id="watched everything"></h4>
+            <ul style="list-style: none;" class="mt-1 p-0">
+              {% for ep in range %}
+              <li><input type="checkbox" name="episode" id="watched"> Episode {{ ep }}</li>
+              {% endfor %}
+          </form>
+          </ul>
+          <h4>Movies | Ova's</h4>
+          {% for rel, v in anime.related.items %}  
+            {% if rel == "Side story" %}
+              <ul style="list-style: none;" class="mt-1 p-0">
+                {% for r in v %}
+                <li><input type="checkbox" name="episode" id="watched"> {{ r.name }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item col-4">
+      <h2 class="accordion-header" id="headingThree">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Ratings
+        </button>
+      </h2>
+      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" >
+        <div class="accordion-body">
+          <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        </div>
+      </div>
+    </div>
+  </div>

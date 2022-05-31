@@ -1,0 +1,6 @@
+.icon {
+    fill: black;
+}
+.icon:hover, .icon:visited {
+    fill: red;
+}

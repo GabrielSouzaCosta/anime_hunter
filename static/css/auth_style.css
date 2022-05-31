@@ -1,0 +1,11 @@
+.login-background {
+    background-image: url('/static/images/login_background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.register-background {
+    background-image: url('/static/images/register_background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}

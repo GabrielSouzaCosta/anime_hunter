@@ -1,0 +1,36 @@
+{% extends 'base_auth.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="register-background vh-100">
+    <div class="d-flex flex-column flex-md-row h-100">
+        
+        <div class="d-flex flex-column align-items-center justify-content-center w-100 w-md-50 h-25 h-md-100 text-center text-warning">
+            <h1 class="display-3 fw-bold">All Your Animes in One Place.</h1>
+            <h2 class="display-5">Simplify your Anime Watchlists</h2>
+        </div>
+        
+    <div class="row d-flex justify-content-end align-items-center w-100 w-md-50 m-0 vh-100">
+        <div class="col-12 col-sm-12 col-lg-11 p-0">
+            <div style="background-color: #000000aa;" class="d-flex flex-column justify-content-center align-items-center text-white vh-100">
+                <div class="col-8 col-md-9 col-sm-auto col-lg-6">
+                    <h1 class='display-3 p-5 text-center' >Register</h1>
+                    <form action="{% url 'authentication:register' %}" method="POST">
+                        {% csrf_token %}
+                        {{ form|crispy }}  
+
+                        <div class="d-flex flex-column justify-content-center align-items-center">
+                            <button class='btn btn-primary' type="submit" >Register</button>
+                            <a class="pt-3 link-primary mb-5" href="{% url 'authentication:login' %}">Already have an account?</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>           
+</div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for anime in animes %}
+    {{ anime.title }}
+    <a href="{% url 'animes:anime_details' anime.mal_id %}"><img src="{{ anime.image_url }}" alt="{{anime.title}}"></a>
+{% endfor %}
+
+
+{% endblock content %}

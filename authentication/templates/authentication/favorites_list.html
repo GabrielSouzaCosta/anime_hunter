@@ -12,23 +12,20 @@
                     <button type="submit" class="btn btn-success my-2">Save Changes</button>
                     <input type="hidden" id="items-tier" name="ranked-items" value="">
                     <input type="hidden" id="remove-items" name="remove-items" value="">
-                    <input type="hidden" name="tier-ids" value="{{ tier.id }}">
-                    {% for tier in tiers %}
-                        <input type="hidden" id="tier-label">
-                    {% endfor %}
+                    <input type="hidden" id="tier-labels" name="tier-labels" class="tier-label-form" value="">
                 </form>
         </div>
         {% for tier in tiers %}
         <div class="d-flex border-bottom align-items-center p-1" style="min-height: 15vh;">
-            <div class="col-3 col-md-1 border-end pe-1 me-3" style="min-height: 15vh;">
-                <input value="{{ tier.tier }}" class="border-0 fw-bold form-control text-center" style="background-color: rgb(174, 241, 48); line-height: 15vh;">
+            <div class="col-5 col-md-3 col-lg-1 border-end pe-1 me-3" style="min-height: 15vh;">
+                <input value="{{ tier.tier }}" id="{{ tier.id }}" class="border-0 fw-bold form-control text-center tier-label" style="background-color: rgb(174, 241, 48); line-height: 15vh;">
             </div>
             <!-- div where dragged animes belong, they are being appended and managed by the cards.js and drag_and_drop.js files -->
             <div class="items row w-100 h-100" id="{{ tier.id }}" style="min-height: 15vh;">
             {% for ranked in favorites|in_tier:tier.id %}
-            <div id="{{ ranked.id }}" value="{{ ranked.id }}" style="background-color: #ffffff00;" class="col-3 col-md-2 col-lg-1 p-1 m-auto m-md-0 anime-card" draggable="true">
-                <img src="{{ ranked.image_url }}" class="btn w-100 h-100 p-0" alt="{{ ranked.name }}" draggable="false"></img>
-            </div>
+                <div id="{{ranked.id}}-tier-{{ tier.id }}" style="background-color: #ffffff00;" class="col-4 col-md-2 col-lg-1 p-1 m-auto m-md-0 anime-card" draggable="true">
+                    <img src="{{ ranked.image_url }}" class="btn w-100 h-100 p-0" alt="{{ ranked.name }}" draggable="false"></img>
+                </div>
             {% endfor %}
             </div>
             <!--  -->
@@ -50,7 +47,7 @@
         <div class="items row ms-1 mt-1" id="drag-board" style="min-height: 200px;">
         {% for fav in favorites %}
             {% if not fav.tier_rating %}
-            <div id="{{ fav.id }}" value="{{ fav.id }}" style="background-color: #ffffff00;" class="col-3 col-md-2 col-lg-1 p-1 m-auto m-md-0 anime-card" draggable="true">
+            <div id="{{ fav.id }}-tier-none" style="background-color: #ffffff00;" class="col-3 col-md-2 col-lg-1 p-1 m-auto m-md-0 anime-card" draggable="true">
                 <img src="{{ fav.image_url }}" class="btn w-100 p-0" alt="{{ fav.name }}" draggable="false"></img>
             </div>
             {% endif %}

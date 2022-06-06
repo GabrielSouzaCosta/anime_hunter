@@ -8,27 +8,32 @@ const onDragOver = (event) => {
 
 const onDrop = (event) => {
     event.preventDefault();
-    console.log(event.target)
     if (event.target.tagName == 'DIV' && event.target.classList.contains('items')) {
         const draggedCardId = event.dataTransfer.getData('id');
         const draggedCard = document.getElementById(draggedCardId);
+        (event.target.id !== "drag-board") ?
+        draggedCard.id = `${draggedCardId.split('-tier-')[0]}-tier-${event.target.id}`
+        :
+        draggedCard.id = `${draggedCardId.split('-tier-')[0]}-tier-none`
+
+        console.log(draggedCard)
         draggedCard.style.visibility = 'visible';
         event.target.appendChild(draggedCard);
-        if (event.target.id === "drag-board" && !removeAnimes.value.includes(draggedCardId)) {
+        if (event.target.id === "drag-board" && !removeAnimes.value.includes(draggedCard.id)) {
             if (removeAnimes.value === "") {
-                removeAnimes.value += draggedCardId;
+                removeAnimes.value += draggedCard.id;
             } else {
-                removeAnimes.value += ` ${draggedCardId}`;
+                removeAnimes.value += ` ${draggedCard.id}`;
             }
-            animes.value = animes.value.replace(toString(draggedCardId), " ");
+            animes.value = animes.value.replace(toString(draggedCard.id), " ");
         } else if (event.target.id === "drag-board") {
-            animes.value = animes.value.replace(draggedCardId, " ");
+            animes.value = animes.value.replace(draggedCard.id, " ");
         } else if (animes.value === "") {
-            animes.value += draggedCardId;
-        } else if (!animes.value.includes(draggedCardId)) {
-            animes.value += ` ${draggedCardId}`;
+            animes.value = draggedCard.id;
+        } else if (!animes.value.includes(draggedCard.id)) {
+            animes.value += ` ${draggedCard.id}`;
         }
-        console.log(animes.value)
+        console.log(animes.value + '\n' + removeAnimes.value)
     }
 }
 

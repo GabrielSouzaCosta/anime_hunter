@@ -78,20 +78,49 @@ def delete_tier(request, id):
 @login_required
 def define_tier(request):
     if request.method == 'POST':
-        tier = Tierlist_rating.objects.get(pk = request.POST['tier-ids'])
         items = request.POST['ranked-items'].strip().split(' ')
         remove_items = request.POST['remove-items'].strip().split(' ')
-        print(items, remove_items)
+        labels_items = request.POST['tier-labels'].strip().split(',')
+        labels = []
+        animes = []
+        animes_to_remove = []
+        
         if items != [""]:
-            for item in items:
-                obj = Favorite.objects.get(pk = int(item))
-                obj.tier_rating = tier
+            for i in items:
+                anime_id, tier_id = i.split('-tier-')
+                animes.append({
+                    "anime_id": anime_id, 
+                    "tier_id": tier_id
+                })
+
+            for item in animes:
+                obj = Favorite.objects.get(pk = int(item['anime_id']))
+                obj.tier_rating = Tierlist_rating.objects.get(pk = int(item['tier_id']))
                 obj.save()
+
         if remove_items != [""]:
-            for item in remove_items:
+            for i in remove_items:
+                anime_id = i.split('-tier-')[0]
+                animes_to_remove.append(anime_id)
+
+            for item in animes_to_remove:
                 obj = Favorite.objects.get(pk = int(item))
                 obj.tier_rating = None
                 obj.save()
+
+        if labels_items != [""]:
+            for l in labels_items:
+                label_id, tier_name = l.split('-')
+                labels.append({
+                    'label_id': label_id,
+                    'tier_name': tier_name
+                    })
+
+            for item in labels:
+                t = Tierlist_rating.objects.get(pk = item['label_id'])
+                t.tier = item['tier_name']
+                t.save()
+
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 

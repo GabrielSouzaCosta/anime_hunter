@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load favorites_tags %}
+
+{% block content %}
+<div class="container-fluid pb-4 px-4">
+    <div class="d-flex flex-column bg-dark my-2 rounded">
+        <div class="d-flex text-white justify-content-center align-items-center border-bottom">
+                <h1 class="text-center my-2 me-3">Favorites List</h1>
+                <form action="{% url 'authentication:define_tier' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success my-2">Save Changes</button>
+                    <input type="hidden" id="items-tier" name="ranked-items" value="">
+                    <input type="hidden" id="remove-items" name="remove-items" value="">
+                    <input type="hidden" name="tier-ids" value="{{ tier.id }}">
+                    {% for tier in tiers %}
+                        <input type="hidden" id="tier-label">
+                    {% endfor %}
+                </form>
+        </div>
+        {% for tier in tiers %}
+        <div class="d-flex border-bottom align-items-center p-1" style="min-height: 15vh;">
+            <div class="col-3 col-md-1 border-end pe-1 me-3" style="min-height: 15vh;">
+                <input value="{{ tier.tier }}" class="border-0 fw-bold form-control text-center" style="background-color: rgb(174, 241, 48); line-height: 15vh;">
+            </div>
+            <!-- div where dragged animes belong, they are being appended and managed by the cards.js and drag_and_drop.js files -->
+            <div class="items row w-100 h-100" id="{{ tier.id }}" style="min-height: 15vh;">
+            {% for ranked in favorites|in_tier:tier.id %}
+            <div id="{{ ranked.id }}" value="{{ ranked.id }}" style="background-color: #ffffff00;" class="col-3 col-md-2 col-lg-1 p-1 m-auto m-md-0 anime-card" draggable="true">
+                <img src="{{ ranked.image_url }}" class="btn w-100 h-100 p-0" alt="{{ ranked.name }}" draggable="false"></img>
+            </div>
+            {% endfor %}
+            </div>
+            <!--  -->
+            <form action="{% url 'authentication:delete_tier' tier.id %}" class="align-self-start" method="post">
+                {% csrf_token %}
+                <button class="btn btn-danger" type="submit">X</button>
+            </form>
+        </div>
+        {% endfor %}
+        <div class="rounded p-2 ms-2 col col-md-3 col-lg-2">
+            <form class="d-flex align-items-center" action="{% url 'authentication:add_tier' %}" method="post">
+                {% csrf_token %}
+                <input class="border-0 ps-3 me-1 rounded-pill fw-bold form-control p-0" name="tier" placeholder="New Tier...">
+                <input type="submit" class="btn btn-warning rounded-pill py-0" value="Add tier">
+            </form>
+        </div>
+    </div>
+
+        <div class="items row ms-1 mt-1" id="drag-board" style="min-height: 200px;">
+        {% for fav in favorites %}
+            {% if not fav.tier_rating %}
+            <div id="{{ fav.id }}" value="{{ fav.id }}" style="background-color: #ffffff00;" class="col-3 col-md-2 col-lg-1 p-1 m-auto m-md-0 anime-card" draggable="true">
+                <img src="{{ fav.image_url }}" class="btn w-100 p-0" alt="{{ fav.name }}" draggable="false"></img>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+</div>
+<script src="{% static '/js/cards.js' %}"></script>
+<script src="{% static '/js/drag_and_drop.js' %}"></script>
+{% endblock %}

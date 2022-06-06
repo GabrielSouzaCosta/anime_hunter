@@ -1,13 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row m-3">
-    {% for anime in animes %}
-    <div class="col-2 py-1">
-        <a href="{% url 'animes:anime_details' anime.mal_id %}"><img src="{{ anime.image_url }}" class="img-fluid w-100" alt="{{anime.title}}"></a>
-    </div>
+<div class="d-flex flex-column justify-content-between vh-100">
+    <div class="row m-3">
+        {% for anime in animes %}
+        <div class="col-md-3 col-lg-2 py-1">
+            <a href="{% url 'animes:anime_details' anime.mal_id %}"><img src="{{ anime.image_url }}" class="img-fluid w-100" alt="{{anime.title}}"></a>
+        </div>
         {% endfor %}
+        
+    </div>
+    <div class="pagination position-relative bottom-0">
+        
+        {% if animes.has_previous %}
+        <a class="fs-3 fw-bold me-2 mb-1" href="?page={{ animes.previous_page_number }}{% if query %}&query={{ query }}{% endif %}">&laquo;</a>
+        {% endif %}
+        
+        <span class="current">
+            Page {{ animes.number }} of {{ animes.paginator.num_pages }}
+        </span>
+        
+        {% if animes.has_next %}
+        <a class="fs-3 fw-bold ms-2 mb-1" href="?page={{ animes.next_page_number }}{% if query %}&query={{ query }}{% endif %}">&raquo;</a>
+        {% endif %}
+    </div>
 </div>
+
 
 
 {% endblock content %}

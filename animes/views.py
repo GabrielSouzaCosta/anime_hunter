@@ -5,25 +5,50 @@ import asyncio
 from pprint import pprint
 from django.contrib.auth.decorators import login_required
 from .models import Favorite, Watchlist_item
+from django.core.paginator import Paginator
 
 def homepage(request):
     return render (request, 'animes/index.html')
 
 def search_animes_view(request):
-    animes = asyncio.run(search_anime(request.GET['query']))
-    return render(request, 'animes/search_result.html', {'animes': animes})
+    if request.GET['query']:
+        query = request.GET.get('query')
+        animes = asyncio.run(search_anime(request.GET['query']))
+        paginator = Paginator(animes, 24)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'animes/search_result.html', {'animes': page_obj, 'query': query})
+    else:
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
 
 def anime_details(request, id):
     anime = get_anime(id)
-    is_favorite = Favorite.objects.filter(anime_id = anime['mal_id'], user = request.user).exists()
-    if anime['episodes']:
-        episodes = range(anime['episodes'])
+    context = {}
+    if request.user and request.user.is_anonymous == False:
+        is_favorite = Favorite.objects.filter(anime_id = anime['mal_id'], user = request.user).exists()
+        is_on_watchlist = Watchlist_item.objects.filter(anime_id = anime['mal_id'], user = request.user).exists()
+        if is_favorite:
+            episodes_watched = Favorite.objects.filter(anime_id = anime['mal_id'], user = request.user).first().episodes_watched
+        elif is_on_watchlist:
+            episodes_watched = Watchlist_item.objects.filter(anime_id = anime['mal_id'], user = request.user).first().episodes_watched
+        else:
+            episodes_watched = 0
+        context = {'is_favorite': is_favorite, 'is_on_watchlist': is_on_watchlist, 'episodes_watched': episodes_watched }
+    if anime['episodes']: 
+        if anime['episodes'] == 1:
+            episodes = range(1, anime['episodes'] + 1)
+        else:
+            episodes = range(1, anime['episodes'])
+        context['range'] = episodes
     else:
-        episodes = ['Still launching']
-    return render(request, 'animes/anime_details.html', {'anime':anime, 'range': episodes, 'is_favorite': is_favorite })
+        episodes = []
+    context['anime'] = anime
+    return render(request, 'animes/anime_details.html', context=context)
 
 def top_animes(request):
     animes = get_top_animes()
+    
     return render(request, 'animes/top_animes.html', {'animes': animes})
 
 def upcoming_animes(request):
@@ -33,24 +58,35 @@ def upcoming_animes(request):
 @login_required
 def add_favorite(request, anime_id):
     if request.method == 'POST':
-        favorite = Favorite(anime_id = anime_id, name = request.POST['name'], image_url = request.POST['image_url'], user = request.user)
+        favorite = Favorite(
+            anime_id = anime_id, 
+            name = request.POST['name'], 
+            image_url = request.POST['image_url'], 
+            user = request.user, 
+            episodes_watched = request.POST["episodes"]
+            )
         if not favorite.is_in_user_list():
             favorite.save()
-            return HttpResponseRedirect(request.META['HTTP_REFERER'], 'animes:homepage')
-        return HttpResponseRedirect(request.META['HTTP_REFERER'], 'animes:homepage')
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
     else:
-        return HttpResponseRedirect(request.META['HTTP_REFERER'], 'animes:homepage')
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 @login_required
 def add_to_watchlist(request, anime_id):
     if request.method == 'POST':
-        item = Watchlist_item(anime_id = anime_id, name = request.POST['name'], image_url = request.POST['image_url'] , user = request.user)
+        item = Watchlist_item(
+            anime_id = anime_id,
+            name = request.POST['name'], 
+            image_url = request.POST['image_url'], 
+            user = request.user
+            )
         if not item.is_in_user_list():
             item.save()
-            return HttpResponseRedirect(request.META['HTTP_REFERER'], 'animes:homepage')
-        return HttpResponseRedirect(request.META['HTTP_REFERER'], 'animes:homepage')
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
     else:
-        return HttpResponseRedirect(request.META['HTTP_REFERER'], 'animes:homepage')
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 @login_required
 def remove_favorite(request, anime_id):
@@ -58,5 +94,27 @@ def remove_favorite(request, anime_id):
         favorite = Favorite.objects.filter(anime_id = anime_id, user = request.user).first()
         if favorite:
             favorite.delete()
-    return HttpResponseRedirect(request.META['HTTP_REFERER'], 'animes:homepage')
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+@login_required
+def remove_from_watchlist(request, anime_id):
+    if request.method == 'POST':
+        item = Watchlist_item.objects.filter(anime_id = anime_id, user = request.user).first()
+        if item:
+            item.delete()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+@login_required
+def set_episodes(request, anime_id):
+    if request.method == 'POST':
+        if request.POST['is_favorite'] == 'True':
+            item = Favorite.objects.filter(anime_id = anime_id, user = request.user).first()
+            item.episodes_watched = request.POST['episode']
+            item.save()
+        if request.POST['is_on_watchlist'] == 'True':
+            item = Watchlist_item.objects.filter(anime_id = anime_id, user = request.user).first()
+            item.episodes_watched = request.POST['episode']
+            item.save()
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
         
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])    

@@ -19,13 +19,39 @@
       </h2>
       <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" >
         <div class="accordion-body">
-          <form action="">
+            <div class="d-flex align-items-center justify-content-start">
+              <h4 class="m-0 p-0 me-2">Episodes</h4>
+              {% if is_on_watchlist == True or is_favorite == True %}
+                {% if episodes_watched == anime.episodes %}
+                <input type="checkbox" class="mt-1" name="episode" checked onclick="this.form.submit()" value="{{ range|last }}" id="watched_everything">
+                {% else %}
+                <form action="{% url 'animes:set_episodes' anime.mal_id %}" method="post">
+                  {% csrf_token %}
+                  <input type="checkbox" class="mt-1" name="episode"  onclick="this.form.submit()" value="{{ range|last }}" id="watched_everything">
+                  <input type="hidden" name="is_favorite" value="{{ is_favorite }}"> <input type="hidden" name="is_on_watchlist" value="{{ is_on_watchlist }}">
+                </form>
+                {% endif %}
+              {% endif %}
+            </div>
 
-            <h4>Episodes <input type="checkbox" name="all_episodes" id="watched everything"></h4>
             <ul style="list-style: none;" class="mt-1 p-0">
               {% for ep in range %}
-              <li><input type="checkbox" name="episode" id="watched"> Episode {{ ep }}</li>
-              {% endfor %}
+                <form action="{% url 'animes:set_episodes' anime.mal_id %}" method="post">
+                  {% csrf_token %}
+                  <li>
+                    {% if is_on_watchlist == True or is_favorite == True %}
+                      {% if ep > episodes_watched %}
+                        <input type="checkbox" name="episode" onclick="this.form.submit()" value="{{ ep }}" id="watched">
+                      {% else %}
+                        <input type="checkbox" checked name="episode-watched" onclick="this.form.submit()" value="{{ ep }}" id="not-watched">
+                      {% endif %}
+                    {% endif %}
+                    Episode {{ ep }}
+                  </li>
+                  <input type="hidden" name="is_favorite" value="{{ is_favorite }}">
+                  <input type="hidden" name="is_on_watchlist" value="{{ is_on_watchlist }}">
+                </form>
+                {% endfor %}
           </form>
           </ul>
           <h4>Movies | Ova's</h4>
@@ -33,7 +59,12 @@
             {% if rel == "Side story" %}
               <ul style="list-style: none;" class="mt-1 p-0">
                 {% for r in v %}
-                <li><input type="checkbox" name="episode" id="watched"> {{ r.name }}</li>
+                <li>
+                  {% if is_on_watchlist == True or is_favorite == True %}
+                  <input type="checkbox" name="episode" id="watched">
+                  {% endif %}
+                  {{ r.name }}
+                </li>
                 {% endfor %}
               </ul>
             {% endif %}

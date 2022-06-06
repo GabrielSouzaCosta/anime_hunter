@@ -11,3 +11,20 @@
 .watch-icon:hover {
     fill: rgb(236, 118, 21);
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #22221177;
+    padding: 0.6rem;
+    font-size: 1.5rem;
+}
+.pagination a {
+    color: black;
+    text-decoration: none;
+}
+
+.current {
+    color: white;
+}

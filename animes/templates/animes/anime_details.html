@@ -6,8 +6,8 @@
         <div class="col-2">
             <div class="d-flex flex-column justify-content-center align-items-center">
                 <img src="{{ anime.image_url }}" alt="" class="btn img-fluid float-start me-2 w-100">
-                <span class="fw-bold fs-2 ms-3">Rank: #{{ anime.rank }}</span>
-                <span class="fs-2">{{ anime.episodes }} episodes</span>
+                {% if anime.rank %}<span class="fw-bold fs-2 ms-3">Rank: #{{ anime.rank }}</span>{% endif %}
+                {% if anime.episodes %}<span class="fs-2">{{ anime.episodes }} episodes</span>{% endif %}
                 <p>Status: {{ anime.status }}</p>
                 <span>
                     {% if user.is_authenticated %}
@@ -32,10 +32,20 @@
                             </button>
                             <input type="hidden" name="name" value="{{ anime.title }}">
                             <input type="hidden" name="image_url" value="{{ anime.image_url }}">
+                            <input type="hidden" name="episodes" value="{{ anime.episodes }}">
                         </form>
                         {% endif %}
 
                         {% if is_on_watchlist %}
+                        <form action="{% url 'animes:remove_from_watchlist' anime.mal_id %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn" type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgb(236, 118, 21)" class="bi bi-clock-fill m-1" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                </svg>
+                                Remove from my Watchlist
+                            </button>
+                        </form>
                         {% else %}
                             <form action="{% url 'animes:add_to_watchlist' anime.mal_id %}" method="post">
                                 {% csrf_token %}
@@ -51,13 +61,18 @@
                         {% endif %}
 
                         {% else %}
-                    <a href="{% url 'authentication:login' %}?next={{ request.path }}" class="btn btn-success my-1">Login to add to Watchlist</a>
+                    <a href="{% url 'authentication:login' %}?next={{ request.path }}" class="btn btn-success">Login to add to Watchlist</a>
                     {% endif %}
                 </span>
             </div>
         </div>
         <div class="col-10">
-            <h1 class="text-center py-2">{{ anime.title }} </h1> 
+            <h1 class="text-center py-2">
+                {{ anime.title }}
+                {% if episodes_watched == anime.episodes %}
+                <span style="color: rgb(29, 77, 235); font-weight: bold;">&#10003;</span>
+                {% endif %}
+            </h1>
             {% include 'accordion.html' %}    
         </div>
     </div>

@@ -5,7 +5,10 @@ from .forms import NewUserForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from django.conf import settings    
+from django.conf import settings   
+from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template 
 
 
 def login_view(request):
@@ -36,9 +39,17 @@ def register_user(request):
         form = NewUserForm(data=request.POST) 
         if form.is_valid():
             user = form.save()
+            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
+            htmly = get_template('authentication/Email.html')
+            d = { 'username': username }
+            subject, from_email, to = 'welcome', 'gabrielsscosta2010@hotmail.com', email
+            html_content = htmly.render(d)
+            msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
             login(request, user)
+            msg.send()
             return redirect('animes:homepage')
-        msg = "Error"
     else:
         form = NewUserForm()
         
@@ -110,6 +121,7 @@ def define_tier(request):
 
         if labels_items != [""]:
             for l in labels_items:
+                print(l)
                 label_id, tier_name = l.split('-')
                 labels.append({
                     'label_id': label_id,

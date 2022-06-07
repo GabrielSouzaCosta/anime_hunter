@@ -14,5 +14,5 @@ def get_top_animes():
     return jikan.top(type='anime')['top']
 
 def get_upcoming_animes():
-    return jikan.top(type='anime', page=2, subtype='upcoming')['top']
+    return jikan.top(type='anime', page=1, subtype='upcoming')['top']
 

@@ -34,7 +34,10 @@ cards.forEach((card) => {
 
 document.addEventListener('DOMContentLoaded', (event) => {
     labels.forEach((label) => {
-        labelsInputForm.value += `${label.id}-${label.value}`;
+        (labelsInputForm.value === "") ?
+        labelsInputForm.value += `${label.id}-${label.value}` 
+        :
+        labelsInputForm.value += `,${label.id}-${label.value}`
         label.onchange = handleLabelChange;
     })
 })

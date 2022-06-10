@@ -55,6 +55,11 @@ def upcoming_animes(request):
     animes = get_upcoming_animes()
     return render(request, 'animes/upcoming_animes.html', {'animes': animes})
 
+def discover(request):
+    # Render a page with random animes
+    animes = get_upcoming_animes()
+    return render(request, 'animes/discover.html', {'animes': animes})
+
 @login_required
 def add_favorite(request, anime_id):
     if request.method == 'POST':
@@ -75,11 +80,16 @@ def add_favorite(request, anime_id):
 @login_required
 def add_to_watchlist(request, anime_id):
     if request.method == 'POST':
+        try:
+            episodes = request.POST['episodes']
+        except:
+            episodes = 0
         item = Watchlist_item(
             anime_id = anime_id,
             name = request.POST['name'], 
             image_url = request.POST['image_url'], 
-            user = request.user
+            user = request.user,
+            episodes = episodes
             )
         if not item.is_in_user_list():
             item.save()

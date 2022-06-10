@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="flyer-cards-container" style="background-image: url('/static/images/random_background.jpg'); background-size: cover; background-repeat: no-repeat;">
+<div class="vh-100">
+        {% include 'navbar.html' %}
+        <div class="d-flex flex-column align-items-center justify-content-center h-50 vw-100">
+            <div>
+
+            </div>
+            <h1 class="fw-bold display-3 text-white w-100 text-center" style="opacity: 0.85;">Discover new animes</h1>
+            <div class="row w-50 me-5">
+                {% for anime in animes %}
+                <div class="col-md-3 col-lg-2 py-1">
+                    <a href="{% url 'animes:anime_details' anime.mal_id %}">
+                        <div class="card-flyer card-flyer-random mt-3 position-absolute">
+                            <div class="image-box card-picker">
+                                <img src="{{ anime.images.jpg.image_url }}" class="image-box w-100" alt="{{anime.title}}">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

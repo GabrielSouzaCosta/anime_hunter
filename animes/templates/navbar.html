@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top p-2 vw-100">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top p-2">
   <div class="container-fluid w-100 h-100">
     <a href="{% url 'animes:homepage' %}"class="navbar-brand">AnimeHunter</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,6 +21,9 @@
         </li>
         <li class="nav-item">
           <a href="{% url 'animes:upcoming_animes' %}" class="nav-link link-secondary">Upcoming</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'animes:discover' %}" class="nav-link link-secondary">Discover</a>
         </li>
       </ul>
       <div class="d-flex">

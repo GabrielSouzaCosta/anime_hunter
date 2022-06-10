@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% include 'navbar.html' %}
 <div class="container-fluid mt-2">
     <div class="d-flex flex-column align-items-center vw-100">
         <h1>My Watchlist</h1>
@@ -10,19 +11,57 @@
                 <div class="col col-md-4">
                     <h2>To watch</h2>
                     {% for item in watchlist_items %}
-                        <a href="{% url 'animes:anime_details' item.anime_id %}"><img src="{{ item.image_url }}" alt="{{ item }}"></a>
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                          <div class="col-md-2">
+                            <a href="{% url 'animes:anime_details' item.anime_id %}">
+                                <img src="{{ item.image_url }}" alt="{{ item }}" class="img-fluid">
+                            </a>
+                          </div>
+                          <div class="col-md-10">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h2 >{{ item }}</h2>
+                                        <span>{{ item }}</span>
+                                    </div>
+                                    <div class="col-3">
+                                        <button class="btn">Start Watching</button>
+                                        <button class="btn">Watched</button>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     {% endfor %}
                 </div>
                 <div class="col col-md-4">
                     <h2>Watching</h2>
                     {% for item in watchlist_items %}
-                        <a href="{% url 'animes:anime_details' item.anime_id %}"><img src="{{ item.image_url }}" alt="{{ item }}"></a>
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                          <div class="col-md-2">
+                            <a href="{% url 'animes:anime_details' item.anime_id %}">
+                                <img src="{{ item.image_url }}" alt="{{ item }}" class="img-fluid">
+                            </a>
+                          </div>
+                        </div>
+                      </div>
                     {% endfor %}
                 </div>
                 <div class="col col-md-4">
                     <h2>Watched</h2>
                     {% for item in watchlist_items %}
-                        <a href="{% url 'animes:anime_details' item.anime_id %}"><img src="{{ item.image_url }}" alt="{{ item }}"></a>
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                          <div class="col-md-2">
+                            <a href="{% url 'animes:anime_details' item.anime_id %}">
+                                <img src="{{ item.image_url }}" alt="{{ item }}" class="img-fluid">
+                            </a>
+                          </div>
+                        </div>
+                      </div>
                     {% endfor %}
                 </div>
             </div>

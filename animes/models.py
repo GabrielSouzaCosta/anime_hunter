@@ -31,6 +31,7 @@ class Watchlist_item(models.Model):
     watched = models.BooleanField(default=False)
     user_rating = models.DecimalField(max_digits=3, decimal_places=2, null=True)
     added_at = models.DateTimeField(default=timezone.now)
+    episodes = models.IntegerField()
     episodes_watched = models.IntegerField(default=0)
 
     def is_in_user_list(self):

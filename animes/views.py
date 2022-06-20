@@ -134,7 +134,7 @@ def set_episodes(request, anime_id):
         
     return HttpResponseRedirect(request.META['HTTP_REFERER'])    
 
-
+@xframe_options_exempt
 def favorites_test(request):
     animes = get_top_animes()[:5]
     context = {'tiers': ['S', 'A', 'B'], 'favorites': animes}

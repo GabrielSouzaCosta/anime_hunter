@@ -5,7 +5,7 @@
     <div class="d-flex">
         <div class="col-2">
             <div class="d-flex flex-column justify-content-center align-items-center">
-                <img src="{{ anime.image_url }}" alt="" class="btn img-fluid float-start me-2 w-100">
+                <img src="{{ anime.images.jpg.image_url }}" alt="" class="btn img-fluid float-start me-2 w-100">
                 {% if anime.rank %}<span class="fw-bold fs-2 ms-3">Rank: #{{ anime.rank }}</span>{% endif %}
                 {% if anime.episodes %}<span class="fs-2">{{ anime.episodes }} episodes</span>{% endif %}
                 <p>Status: {{ anime.status }}</p>

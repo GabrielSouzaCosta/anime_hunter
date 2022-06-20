@@ -6,6 +6,7 @@ from pprint import pprint
 from django.contrib.auth.decorators import login_required
 from .models import Favorite, Watchlist_item
 from django.core.paginator import Paginator
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 def homepage(request):
     return render (request, 'animes/index.html')
@@ -21,40 +22,44 @@ def search_animes_view(request):
     else:
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
-
+@xframe_options_exempt
 def anime_details(request, id):
-    anime = get_anime(id)
+    anime = get_anime(id)['data']
+
     context = {}
     if request.user and request.user.is_anonymous == False:
-        is_favorite = Favorite.objects.filter(anime_id = anime['mal_id'], user = request.user).exists()
-        is_on_watchlist = Watchlist_item.objects.filter(anime_id = anime['mal_id'], user = request.user).exists()
+        is_favorite = Favorite.objects.filter(anime_id = id, user = request.user).exists()
+        is_on_watchlist = Watchlist_item.objects.filter(anime_id = id, user = request.user).exists()
         if is_favorite:
-            episodes_watched = Favorite.objects.filter(anime_id = anime['mal_id'], user = request.user).first().episodes_watched
+            episodes_watched = Favorite.objects.filter(anime_id = id, user = request.user).first().episodes_watched
         elif is_on_watchlist:
-            episodes_watched = Watchlist_item.objects.filter(anime_id = anime['mal_id'], user = request.user).first().episodes_watched
+            episodes_watched = Watchlist_item.objects.filter(anime_id = id, user = request.user).first().episodes_watched
         else:
             episodes_watched = 0
         context = {'is_favorite': is_favorite, 'is_on_watchlist': is_on_watchlist, 'episodes_watched': episodes_watched }
-    if anime['episodes']: 
-        if anime['episodes'] == 1:
-            episodes = range(1, anime['episodes'] + 1)
-        else:
-            episodes = range(1, anime['episodes'])
-        context['range'] = episodes
-    else:
-        episodes = []
+    try:
+        if anime['episodes'] != 0: 
+            if anime['episodes'] == 1:
+                episodes = range(1, anime['episodes'] + 1)
+            else:
+                episodes = range(1, anime['episodes'])
+            context['range'] = episodes
+    except:
+        context['range'] = []
+
     context['anime'] = anime
     return render(request, 'animes/anime_details.html', context=context)
 
+@xframe_options_exempt
 def top_animes(request):
     animes = get_top_animes()
-    
     return render(request, 'animes/top_animes.html', {'animes': animes})
 
 def upcoming_animes(request):
     animes = get_upcoming_animes()
     return render(request, 'animes/upcoming_animes.html', {'animes': animes})
 
+@xframe_options_exempt
 def discover(request):
     # Render a page with random animes
     animes = get_upcoming_animes()

@@ -9,6 +9,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template 
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 
 def login_view(request):
@@ -63,6 +64,7 @@ def user_list(request):
     watchlist_items = Watchlist_item.objects.filter(user=request.user)
     return render(request, 'authentication/user_list.html', {'watchlist_items': watchlist_items})
 
+@xframe_options_exempt
 @login_required
 def favorites_list(request):
     favorites = Favorite.objects.filter(user=request.user).order_by('last_change')

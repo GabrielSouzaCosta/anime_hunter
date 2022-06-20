@@ -1,1 +1,1 @@
-web: gunicorn anime_hunter.wsgi
+web: gunicorn anime_hunter.wsgi:application

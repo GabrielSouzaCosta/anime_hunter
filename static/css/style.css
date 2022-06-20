@@ -1,3 +1,7 @@
+img {
+  cursor: pointer;
+}
+
 .icon {
     fill: black;
 }

@@ -23,7 +23,7 @@
                                                 </svg>
                                             </button>
                                             <input type="hidden" name="name" value="{{ anime.title }}">
-                                            <input type="hidden" name="image_url" value="{{ anime.image_url }}">
+                                            <input type="hidden" name="image_url" value="{{ anime.images.jpg.image_url }}">
                                             <input type="hidden" name="episodes" value="{{ anime.episodes }}">
                                         </form>
                                         <form action="{% url 'animes:add_to_watchlist' anime.mal_id %}" method="post">
@@ -34,7 +34,7 @@
                                                 </svg>
                                             </button>
                                             <input type="hidden" name="name" value="{{ anime.title }}">
-                                            <input type="hidden" name="image_url" value="{{ anime.image_url }}">
+                                            <input type="hidden" name="image_url" value="{{ anime.images.jpg.image_url }}">
                                         </form>
                                     </div>
                                 </div>

@@ -1,6 +1,31 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 {% include 'navbar.html' %}
-
+<div class="container">
+    <h1 class="text-center pt-2"> 
+        Simplify and have fun with your anime watchlist
+    </h1>
+    <div class="d-flex pt-4 justify-content-between">
+        <div class="col-12 col-md-4">
+            <h2>
+                Favorites Page as Tier List 
+            </h2>
+            <img src="{% static '/images/page1.png' %}" alt="favorites page" class="rounded w-100">
+        </div>
+        <div class="col-12 col-md-4">
+            <h2>
+                Discover new Animes 
+            </h2>
+            <img src="{% static '/images/page2.png' %}" alt="Discover page" class="rounded w-100">
+        </div>
+        <div class="col-12 col-md-4">
+            <h2>
+                Explore Top Animes
+            </h2>
+            <img src="{% static '/images/page3.png' %}" alt="top animes page" class="rounded w-100">
+        </div>
+    </div>
+</div>
 {% endblock content %}

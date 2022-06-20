@@ -11,7 +11,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template 
 from django.views.decorators.clickjacking import xframe_options_exempt
 
-
+@xframe_options_exempt
 def login_view(request):
     msg = ''
     form = AuthenticationForm()
@@ -30,10 +30,12 @@ def login_view(request):
 
     return render(request, 'authentication/login.html', {'form': form, 'msg': msg}) 
 
+@xframe_options_exempt
 def logout_view(request):
     logout(request)
     return redirect('animes:homepage')
 
+@xframe_options_exempt
 def register_user(request):
     msg = ''
     if request.method == 'POST':

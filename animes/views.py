@@ -133,3 +133,9 @@ def set_episodes(request, anime_id):
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
         
     return HttpResponseRedirect(request.META['HTTP_REFERER'])    
+
+
+def favorites_test(request):
+    animes = get_top_animes()[:5]
+    context = {'tiers': ['S', 'A', 'B'], 'favorites': animes}
+    return render(request, 'animes/favorites_test.html', context)

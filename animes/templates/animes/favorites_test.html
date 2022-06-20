@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load favorites_tags %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<div class="container-fluid pb-4 px-4">
+    <div class="d-flex flex-column bg-dark my-2 rounded">
+        <div class="d-flex text-white justify-content-center align-items-center border-bottom">
+                <h1 class="text-center my-2 me-3">Favorites List</h1>
+                <button type="submit" class="btn btn-success my-2">Save Changes</button> 
+        </div>
+        {% for tier in tiers %}
+        <div class="d-flex border-bottom align-items-center p-1" style="min-height: 15vh;">
+            <div class="col-5 col-md-3 col-lg-1 border-end pe-1 me-3" style="min-height: 15vh;">
+                <input value="{{ tier }}" class="border-0 fw-bold form-control text-center tier-label" style="background-color: rgb(174, 241, 48); line-height: 15vh;">
+            </div>
+            <!-- div where dragged animes belong, they are being appended and managed by the cards.js and drag_and_drop.js files -->
+            <div class="items row w-100 h-100" style="min-height: 15vh;">
+
+            </div>
+            <!--  -->
+            <button class="btn btn-danger" type="submit">X</button>
+        </div>
+        {% endfor %}
+        <div class="rounded p-2 ms-2 col col-md-3 col-lg-2">
+            <div class="d-flex align-items-center">
+                {% csrf_token %}
+                <input class="border-0 ps-3 me-1 rounded-pill fw-bold form-control p-0" name="tier" placeholder="New Tier...">
+                <input type="submit" class="btn btn-warning rounded-pill py-0" value="Add tier">
+            </div>
+        </div>
+    </div>
+
+        <div class="items row ms-1 mt-1" id="drag-board" style="min-height: 200px;">
+        {% for fav in favorites %}
+            <div style="background-color: #ffffff00;" id="{{ forloop.counter0 }}" class="col-3 col-md-2 col-lg-1 p-1 m-auto m-md-0 anime-card" draggable="true">
+                <img src="{{ fav.images.jpg.image_url }}" class="btn w-100 p-0" alt="{{ fav }}" draggable="false"></img>
+            </div>
+        {% endfor %}
+        </div>
+</div>
+<script>
+    const rows = document.querySelectorAll('.items');
+    const cards = document.querySelectorAll('.anime-card')
+
+    function onDragOver (event) {
+        event.preventDefault();
+    }
+
+    function onDrop (event) {
+        const draggedCard = document.getElementById(event.dataTransfer.getData('id'));
+        event.target.appendChild(draggedCard);
+    }
+
+    function onDragStart (event) {
+        event.dataTransfer.setData('id', event.target.id)
+    } 
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+    rows.forEach((row) => {
+        row.ondragover = onDragOver;
+        row.ondrop = onDrop;
+    })
+    cards.forEach((card) => {
+        card.ondragstart = onDragStart;
+    })
+})
+
+</script>
+{% endblock %}

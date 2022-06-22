@@ -1,78 +1,47 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 {% include 'navbar.html' %}
-<div class="container-fluid mt-2">
-    <div class="d-flex flex-column align-items-center vw-100">
-        <h1>My Watchlist</h1>
-        <div class="d-flex justify-content-between w-100 ">
+<link rel="stylesheet" href="{% static 'css/auth_style.css' %}">
 
-            <div class="row col text-center ">
-                <div class="col col-md-4">
-                    <h2>To watch</h2>
-                    {% for item in watchlist_items %}
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                          <div class="col-md-2">
-                            <a href="{% url 'animes:anime_details' item.anime_id %}">
-                                <img src="{{ item.image_url }}" alt="{{ item }}" class="img-fluid">
-                            </a>
-                          </div>
-                          <div class="col-md-10">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <h2 >{{ item }}</h2>
-                                    </div>
-                                    <div class="col-3">
-                                        <button class="btn">Start Watching</button>
-                                        <button class="btn">Watched</button>
-                                    </div>
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    {% endfor %}
-                </div>
-                <div class="col col-md-4">
-                    <h2>Watching</h2>
-                    {% for item in watchlist_items %}
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                          <div class="col-md-2">
-                            <a href="{% url 'animes:anime_details' item.anime_id %}">
-                                <img src="{{ item.image_url }}" alt="{{ item }}" class="img-fluid">
-                            </a>
-                          </div>
-                          <div class="col">
-                            <h2 >{{ item }}</h2>
-                          </div>
-                        </div>
-                      </div>
-                    {% endfor %}
-                </div>
-                <div class="col col-md-4">
-                    <h2>Watched</h2>
-                    {% for item in watchlist_items %}
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                          <div class="col-md-2">
-                            <a href="{% url 'animes:anime_details' item.anime_id %}">
-                                <img src="{{ item.image_url }}" alt="{{ item }}" class="img-fluid">
-                            </a>
-                          </div>
-                          <div class="col">
-                            <h2 >{{ item }}</h2>
-                          </div>
-                        </div>
-                      </div>
-                    {% endfor %}
-                </div>
-            </div>
+<div class="container-fluid mt-2">        
+  <h1>My Watchlist</h1>
+  <div class="d-flex justify-content-between w-100 mt-4">
+      <div class="row col text-center ">
+          <div class="col col-md-4">
+              <h2>To watch</h2>
+              {% for item in watchlist_items %}
+                <a href="{% url 'animes:anime_details' item.anime_id %}" class="col-2">
+                    <img src="{{ item.image_url }}" alt="{{ item }}">
+                </a>
+                <h3>{{ item }}</h3>
+                <button class="btn-watch border-0 rounded p-2 mb-5 text-white text-uppercase fw-bold">Watching</button>
+                <button class="btn-watched border-0 rounded p-2 text-white text-uppercase fw-bold">Watched</button>
+            {% endfor %}
+          </div>
+          <div class="col col-md-4">
+              <h2>Watching</h2>
+              {% for item in watchlist_items %}
+                <a href="{% url 'animes:anime_details' item.anime_id %}">
+                    <img src="{{ item.image_url }}" alt="{{ item }}" class="img-fluid">
+                </a>
+                <h3 >{{ item }}</h3>
+              {% endfor %}
+          </div>
 
-        </div>
-    </div>
+          <div class="col col-md-4">
+              <h2>Watched</h2>
+              {% for item in watchlist_items %}
+              <a href="{% url 'animes:anime_details' item.anime_id %}">
+                  <img src="{{ item.image_url }}" alt="{{ item }}" class="img-fluid">
+              </a>
+              <h3>{{ item }}</h3>
+              {% endfor %}
+          </div>
+      </div>
+
+  </div>
 </div>
 
 {% endblock %}

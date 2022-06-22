@@ -33,7 +33,7 @@
                                 Add to my favorites
                             </button>
                             <input type="hidden" name="name" value="{{ anime.title }}">
-                            <input type="hidden" name="image_url" value="{{ anime.image_url }}">
+                            <input type="hidden" name="image_url" value="{{ anime.images.jpg.image_url }}">
                             <input type="hidden" name="episodes" value="{{ anime.episodes }}">
                         </form>
                         {% endif %}
@@ -58,7 +58,7 @@
                                     Add to my Watchlist
                                 </button>
                                 <input type="hidden" name="name" value="{{ anime.title }}">
-                                <input type="hidden" name="image_url" value="{{ anime.image_url }}">
+                                <input type="hidden" name="image_url" value="{{ anime.images.jpg.image_url }}">
                             </form>
                         {% endif %}
 

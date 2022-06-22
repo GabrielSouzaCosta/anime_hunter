@@ -68,13 +68,18 @@ def discover(request):
 @login_required
 def add_favorite(request, anime_id):
     if request.method == 'POST':
-        favorite = Favorite(
-            anime_id = anime_id, 
-            name = request.POST['name'], 
-            image_url = request.POST['image_url'], 
-            user = request.user, 
-            episodes_watched = request.POST["episodes"]
-            )
+        try:
+            episodes = request.POST['episodes']
+            if episodes == 'None':
+                episodes = 0
+        finally:
+            favorite = Favorite(
+                anime_id = anime_id, 
+                name = request.POST['name'], 
+                image_url = request.POST['image_url'], 
+                user = request.user, 
+                episodes_watched = episodes
+                )
         if not favorite.is_in_user_list():
             favorite.save()
             return HttpResponseRedirect(request.META['HTTP_REFERER'])

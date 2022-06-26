@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div id="flyer-cards-container vh-100">
+<div id="flyer-cards-container">
     {% include 'navbar.html' %}
     <div class="container-fluid">
         <div class="row m-3">
@@ -13,7 +13,7 @@
                         <div class="image-box">
                             <img src="{{ anime.image_url }}" class="image-box img-fluid w-100" alt="{{anime.title}}">
                                 <div class="hidden-card text-center position-absolute text-dark fs-3 fw-bold h-100 w-100" id="hidden-card">
-                                    <div class="">{{ anime.title }}</div>
+                                    <div class="">{{ anime.title|truncatechars:42 }}</div>
                                     <div class="d-flex justify-content-center">
                                         <form action="{% url 'animes:add_favorite' anime.mal_id %}" method="post">
                                             {% csrf_token %}
@@ -35,7 +35,6 @@
                                             </button>
                                             <input type="hidden" name="name" value="{{ anime.title }}">
                                             <input type="hidden" name="image_url" value="{{ anime.image_url }}">
-                                            <input type="hidden" name="episodes" value="{{ anime.episodes }}">
                                         </form>
                                     </div>
                                 </div>
@@ -46,24 +45,6 @@
             {% endfor %}
         </div>
     </div>
-    <div class="pagination position-relative bottom-0">
-        {% if animes.has_previous %}
-        <a class="fs-3 fw-bold me-2 mb-1" href="?page={{ animes.previous_page_number }}{% if query %}&query={{ query }}{% endif %}">&laquo;</a>
-        {% endif %}
-        
-        <span class="current">
-            Page {{ animes.number }} of {{ animes.paginator.num_pages }}
-        </span>
-        
-        {% if animes.has_next %}
-        <a class="fs-3 fw-bold ms-2 mb-1" href="?page={{ animes.next_page_number }}{% if query %}&query={{ query }}{% endif %}">&raquo;</a>
-        {% endif %}
-    </div>
 </div>
-
-
-
 <script src="{% static '/js/script.js' %}"></script>
-
-
 {% endblock content %}

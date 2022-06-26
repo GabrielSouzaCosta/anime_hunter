@@ -139,6 +139,34 @@ def set_episodes(request, anime_id):
         
     return HttpResponseRedirect(request.META['HTTP_REFERER'])    
 
+def set_not_watching(request, anime_id):
+    if request.method == 'POST':
+        anime = Watchlist_item.objects.filter(anime_id = anime_id, user = request.user).first()
+        anime.watching = False
+        anime.watched = False
+        anime.save()
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+def set_watching(request, anime_id):
+    if request.method == 'POST':
+        anime = Watchlist_item.objects.filter(anime_id = anime_id, user = request.user).first()
+        anime.watching = True
+        anime.watched = False
+        anime.save()
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+def set_watched(request, anime_id):
+    if request.method == 'POST':
+        anime = Watchlist_item.objects.filter(anime_id = anime_id, user = request.user).first()
+        anime.watched = True
+        anime.watching = False
+        anime.save()
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
 @xframe_options_exempt
 def favorites_test(request):
     animes = get_top_animes()[:5]

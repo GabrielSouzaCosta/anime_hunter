@@ -12,5 +12,5 @@ urlpatterns = [
     path('favorites/', views.favorites_list, name='favorites_list'),
     path('add_tier/', views.add_tier, name='add_tier'),
     path('delete_tier/<int:id>/', views.delete_tier, name='delete_tier'),
-    path('define_tier/', views.define_tier, name='define_tier')
+    path('define_tier/', views.define_tier, name='define_tier'),
 ]

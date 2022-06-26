@@ -9,11 +9,11 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: fedora-latest
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        python-version: 3.10
 
     steps:
     - uses: actions/checkout@v3
@@ -28,4 +28,7 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test
+    - name: Deploy
+      run: |
         git push heroku main
+        

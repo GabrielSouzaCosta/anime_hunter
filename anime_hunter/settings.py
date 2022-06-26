@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'animes.apps.AnimesConfig',
     'authentication.apps.AuthenticationConfig',
+    "verify_email.apps.VerifyEmailConfig",
 ]
 
 MIDDLEWARE = [
@@ -152,3 +153,10 @@ EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = "gabrielsscosta2010@hotmail.com"
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+
+DEFAULT_FROM_EMAIL = 'gabrielsscosta2010@hotmail.com'
+
+HTML_MESSAGE_TEMPLATE = "authentication/Email.html"
+REQUEST_NEW_EMAIL_TEMPLATE = 'authentication/resendemail.html'
+
+VERIFICATION_SUCCESS_TEMPLATE = None

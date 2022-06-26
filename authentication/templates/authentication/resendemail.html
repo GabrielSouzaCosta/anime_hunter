@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    form {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+</style>
+<div style="background-color: rgb(241, 233, 116);" class="vh-100">
+    {% include 'navbar.html' %}
+    <div class="container">
+        <h1 class="text-center py-4">Resend confirmation email</h1>
+        <div class="d-flex justify-content-center align-items-center col-10 col-md-4 m-auto">
+            <form method='POST' class="card p-5 w-100">
+                {% csrf_token %}
+                <fieldset>
+                    {{form}}
+                </fieldset>
+                <div class="m-auto mt-3">
+                    <button class="btn btn-info" type="submit">Request New Email</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,45 +1,139 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load user_tags %}
 
 {% block content %}
 {% include 'navbar.html' %}
 <link rel="stylesheet" href="{% static 'css/auth_style.css' %}">
 
-<div class="container-fluid mt-2">        
-  <h1>My Watchlist</h1>
-  <div class="d-flex justify-content-between w-100 mt-4">
-      <div class="row col text-center ">
-          <div class="col col-md-4">
-              <h2>To watch</h2>
-              {% for item in watchlist_items %}
-                <a href="{% url 'animes:anime_details' item.anime_id %}" class="col-2">
-                    <img src="{{ item.image_url }}" alt="{{ item }}">
-                </a>
-                <h3>{{ item }}</h3>
-                <button class="btn-watch border-0 rounded p-2 mb-5 text-white text-uppercase fw-bold">Watching</button>
-                <button class="btn-watched border-0 rounded p-2 text-white text-uppercase fw-bold">Watched</button>
-            {% endfor %}
-          </div>
-          <div class="col col-md-4">
-              <h2>Watching</h2>
-              {% for item in watchlist_items %}
-                <a href="{% url 'animes:anime_details' item.anime_id %}">
-                    <img src="{{ item.image_url }}" alt="{{ item }}" class="img-fluid">
-                </a>
-                <h3 >{{ item }}</h3>
-              {% endfor %}
-          </div>
+<div class="container-fluid mt-3">        
+  <h1 class="fw-bold gradient-text-1">My Watchlist</h1>
+  <div class="d-flex flex-column flex-md-row justify-content-between w-100 mt-4">
+    <div class="col-12 col-md-4">
+        <div class="row text-center mt-3 h-50">
+            <h2 class="h1">To watch</h2>
+            {% if watchlist_items|not_watching != None %}
+            <div id="towatch-carousel" class="carousel carousel-dark slide" data-bs-interval="false" >
+                <div class="carousel-inner h-100">
+                {% for item in watchlist_items|not_watching %}
+                    {% if forloop.counter == 1 %}
+                    <div class="carousel-item active col-6 ">
+                    {% else %}
+                    <div class="carousel-item col-6">
+                    {% endif %}
+                        <a href="{% url 'animes:anime_details' item.anime_id %}">
+                            <img src="{{ item.image_url }}" alt="{{ item }}" class="w-50">
+                        </a>
+                        <h3 class="py-2">{{ item|truncatechars:25 }}</h3>
+                        <div class="d-flex justify-content-center">
+                            <form action="{% url 'animes:set_watching' item.anime_id %}" method="post" class="pe-1">
+                                {% csrf_token %}
+                                <button class="btn-watching border-0 rounded p-2 text-white text-uppercase fw-bold mb-2 mb-md-0">Watching</button>
+                            </form>
+                            <form action="{% url 'animes:set_watched' item.anime_id %}" method="post" class="ps-1">
+                                {% csrf_token %}
+                                <button class="btn-watched border-0 rounded p-2 text-white text-uppercase fw-bold">Watched</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#towatch-carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#towatch-carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            {% endif %}  
+        </div>
+    </div>
 
-          <div class="col col-md-4">
-              <h2>Watched</h2>
-              {% for item in watchlist_items %}
-              <a href="{% url 'animes:anime_details' item.anime_id %}">
-                  <img src="{{ item.image_url }}" alt="{{ item }}" class="img-fluid">
-              </a>
-              <h3>{{ item }}</h3>
-              {% endfor %}
-          </div>
-      </div>
+    <div class="col-12 col-md-4">
+        <div class="row text-center mt-3">
+            <h2 class="h1">Watching</h2> 
+            {% if watchlist_items|watching != None %}  
+            <div id="watching-carousel" class="carousel carousel-dark slide m-auto" data-bs-interval="false">
+                <div class="carousel-inner">
+                {% for item in watchlist_items|watching %}
+                    {% if forloop.counter == 1 %}
+                    <div class="carousel-item active">
+                    {% else %}
+                    <div class="carousel-item">
+                    {% endif %}
+                        <a href="{% url 'animes:anime_details' item.anime_id %}">
+                            <img src="{{ item.image_url }}" alt="{{ item }}" class="w-50">
+                        </a>
+                        <h3 class="py-2">{{ item|truncatechars:25 }}</h3>
+                        <div class="d-flex justify-content-center">
+                            <form action="{% url 'animes:set_not_watching' item.anime_id %}" method="post" class="pe-1">
+                                {% csrf_token %}
+                                <button class="btn-nowatching border-0 rounded p-2 text-white text-uppercase fw-bold">Not watched</button>
+                            </form>
+                            <form action="{% url 'animes:set_watched' item.anime_id %}" method="post" class="ps-1">
+                                {% csrf_token %}
+                                <button class="btn-watched border-0 rounded p-2 text-white text-uppercase fw-bold">Watched</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#watching-carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#watching-carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+        <div class="row text-center mt-3 mb-3 mb-md-0">
+            <h2 class="h1">Watched</h2>
+            {% if watchlist_items|watched != None %}
+            <div id="watched-carousel" class="carousel carousel-dark slide" data-bs-interval="false">
+                <div class="carousel-inner">
+                {% for item in watchlist_items|watched %}
+                    {% if forloop.counter == 1 %}
+                    <div class="carousel-item active col-6 ">
+                    {% else %}
+                    <div class="carousel-item col-6">
+                    {% endif %}
+                        <a href="{% url 'animes:anime_details' item.anime_id %}">
+                            <img src="{{ item.image_url }}" alt="{{ item }}" class="w-50">
+                        </a>
+                        <h3 class="py-2">{{ item|truncatechars:25 }}</h3>
+                        <div class="d-flex justify-content-center">
+                            <form action="{% url 'animes:set_watching' item.anime_id %}" method="post" class="pe-1">
+                                {% csrf_token %}
+                                <button class="btn-watching border-0 rounded p-2 text-white text-uppercase fw-bold">Watching</button>
+                            </form>
+                            <form action="{% url 'animes:set_not_watching' item.anime_id %}" method="post" class="ps-1">
+                                {% csrf_token %}
+                                <button class="btn-nowatching border-0 rounded p-2 text-white text-uppercase fw-bold">Not watched</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#watched-carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#watched-carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 
   </div>
 </div>

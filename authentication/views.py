@@ -6,10 +6,10 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.conf import settings   
-from django.core.mail import send_mail
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import get_template 
 from django.views.decorators.clickjacking import xframe_options_exempt
+from verify_email.email_handler import send_verification_email
 
 @xframe_options_exempt
 def login_view(request):
@@ -41,18 +41,8 @@ def register_user(request):
     if request.method == 'POST':
         form = NewUserForm(data=request.POST) 
         if form.is_valid():
-            user = form.save()
-            username = form.cleaned_data.get('username')
-            email = form.cleaned_data.get('email')
-            htmly = get_template('authentication/Email.html')
-            d = { 'username': username }
-            subject, from_email, to = 'welcome', 'gabrielsscosta2010@hotmail.com', email
-            html_content = htmly.render(d)
-            msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
-            msg.attach_alternative(html_content, "text/html")
-            login(request, user)
-            msg.send()
-            return redirect('animes:homepage')
+            user = send_verification_email(request, form)
+            return render(request, 'authentication/validate_email.html')
     else:
         form = NewUserForm()
         

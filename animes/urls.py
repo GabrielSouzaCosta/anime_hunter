@@ -15,6 +15,9 @@ urlpatterns = [
     path('remove_favorite/<int:anime_id>/', views.remove_favorite, name='remove_favorite'),
     path('remove_from_watchlist/<int:anime_id>/', views.remove_from_watchlist, name='remove_from_watchlist'),
     path('set_episodes/<int:anime_id>/', views.set_episodes, name='set_episodes'),
-    path('favorites_test/', views.favorites_test, name='favorites_test')
+    path('favorites_test/', views.favorites_test, name='favorites_test'),
+    path('set_not_watching/<int:anime_id>/', views.set_not_watching, name='set_not_watching'),
+    path('set_watching/<int:anime_id>/', views.set_watching, name='set_watching'),
+    path('set_watched/<int:anime_id>/', views.set_watched, name='set_watched'),
 ]
  

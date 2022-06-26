@@ -13,7 +13,7 @@
                         <div class="image-box">
                             <img src="{{ anime.images.jpg.image_url }}" class="image-box img-fluid w-100" alt="{{anime.title}}">
                                 <div class="hidden-card text-center position-absolute text-dark fs-3 fw-bold h-100 w-100" id="hidden-card">
-                                    <div class="">{{ anime.title }}</div>
+                                    <div class="">{{ anime.title|truncatechars:42 }}</div>
                                     <div class="d-flex justify-content-center">
                                         <form action="{% url 'animes:add_favorite' anime.mal_id %}" method="post">
                                             {% csrf_token %}

@@ -1,7 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700&family=Nunito+Sans:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nanum+Myeongjo:wght@700&family=Nunito+Sans:wght@300&display=swap');
 
 body {
-  font-family: 'Nunito Sans', sans-serif;
+  font-family: 'Fredoka One', cursive;
+}
+
+.logo:hover {
+  color: #bd1313;
+  transition: color 1s;
 }
 
 img {

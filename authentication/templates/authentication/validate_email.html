@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="vh-100">
+    {% include 'navbar.html' %}
+    <div class="container h-100">
+        <div class="d-flex flex-column justify-content-center align-items-center h-75">
+            <h1 class="text-center">An email was sent to activate your account</h1>
+            <a href="{% url 'animes:homepage' %}">
+                <button class="btn btn-success text-uppercase">I already have activated my account</button>
+            </a>
+            <a class="pt-2" style="color:  rgb(197, 80, 80);" href="{% url 'request-new-link-from-email' %}">Send email again</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

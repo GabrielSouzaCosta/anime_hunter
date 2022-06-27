@@ -18,14 +18,14 @@
             <div style="background-color: #000000aa;" class="d-flex flex-column justify-content-center align-items-center text-white vh-100">
                 <div class="col-8 col-md-9 col-sm-auto col-lg-6">
                     <h1 class='display-3 p-5 text-center' >Login</h1>
-                    <form action="{% url 'authentication:login' %}" method="POST">
+                    <form action="{% url 'user:login' %}" method="POST">
                         {% csrf_token %}
                         <div class="d-flex flex-column justify-content-center align-items-center my-">{{ form|crispy }}</div>
                         {{ msg }}
                         <div class="d-flex flex-column justify-content-center align-items-center">
-                            <a class="py-3 link-danger" href="">Forgot your password?</a>
+                            <a class="py-3 link-danger" href="{% url 'password_reset' %}">Forgot your password?</a>
                             <button class='btn btn-primary' type="submit" >Login</button>
-                            <a class="pt-3 link-primary mb-5" href="{% url 'authentication:register' %}">Does not have an account yet?</a>
+                            <a class="pt-3 link-primary mb-5" href="{% url 'user:register' %}">Does not have an account yet?</a>
                         </div>
                     </form>
                 </div>

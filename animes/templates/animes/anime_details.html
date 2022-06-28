@@ -63,7 +63,7 @@
                         {% endif %}
 
                         {% else %}
-                    <a href="{% url 'authentication:login' %}?next={{ request.path }}" class="btn btn-success">Login to add to Watchlist</a>
+                    <a href="{% url 'user:login' %}?next={{ request.path }}" class="btn btn-success">Login to add to Watchlist</a>
                     {% endif %}
                 </span>
             </div>

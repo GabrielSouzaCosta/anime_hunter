@@ -4,7 +4,7 @@
 {% block content %}
 <div id="flyer-cards-container">
     {% include 'navbar.html' %}
-    <div class="container-fluid">
+    <div class="container-fluid pb-5">
         <div class="row m-3">
             {% for anime in animes %}
             <div class="col-md-3 col-lg-2 py-1">
@@ -45,6 +45,24 @@
             {% endfor %}
         </div>
     </div>
+    <div class="pagination col-3 mx-auto mt-5 mb-4 rounded-pill" style="z-index: 2;">
+        <span class="step-links p-1">
+            {% if animes.has_previous %}
+                <a href="?page=1">&laquo; |</a>
+                <a href="?page={{ animes.previous_page_number }}">&#8249;</a>
+            {% endif %}
+    
+            <span class="current">
+                {{ animes.number }} of {{ animes.paginator.num_pages }}
+            </span>
+    
+            {% if animes.has_next %}
+                <a href="?page={{ animes.next_page_number }}">&#8250;</a>
+                <a class="color: #55ddee" href="?page={{ animes.paginator.num_pages }}">| &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 </div>
+
 <script src="{% static '/js/script.js' %}"></script>
 {% endblock content %}

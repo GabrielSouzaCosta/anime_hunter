@@ -27,33 +27,16 @@ img {
     fill: rgb(236, 118, 21);
 }
 
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #22221177;
-    padding: 0.6rem;
-    font-size: 1.5rem;
-}
-.pagination a {
-    color: black;
-    text-decoration: none;
-}
-
-.current {
-    color: white;
-}
-
 #flyer-cards-container a{
   text-decoration: none;
   outline: none;
 }
+
 #flyer-cards-container .card-flyer {
-  border-radius: 5px;
+  border-radius: 5px; 
 }
 
 #flyer-cards-container .card-flyer .image-box{
-  background: #ffffff;
   overflow: hidden;
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.40);
   border-radius: 5px;
@@ -64,6 +47,7 @@ img {
   -o-transition:all .9s ease;
   -ms-transition:all .9s ease;
 }
+
 #flyer-cards-container .card-flyer:hover .image-box img{
   opacity: 0.6;
   -webkit-transform:scale(1.15);
@@ -75,7 +59,6 @@ img {
 
 #flyer-cards-container .card-flyer{
   position: relative;
-  background: #FFFFFF55;
   -webkit-transition: all 0.2s ease-in;
   -moz-transition: all 0.2s ease-in;
   -ms-transition: all 0.2s ease-in;
@@ -84,7 +67,6 @@ img {
   box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.40);
 }
 #flyer-cards-container .card-flyer:hover{
-  background: #ffffff33 ;
   box-shadow: 0px 15px 26px rgba(0, 0, 0, 0.50);
   -webkit-transition: all 0.2s ease-in;
   -moz-transition: all 0.2s ease-in;
@@ -130,4 +112,28 @@ img {
   #flyer-cards-container {
     height: 120vh;
   }
+}
+
+.pagination {
+  cursor: pointer;
+  background-color: #c22e2e75;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.pagination:hover {
+  filter: brightness(150%) hue-rotate(15deg);
+  transition: filter 1s;
+}
+.pagination a {
+  color: black;
+  text-decoration: none;
+  font-size: larger;
+}
+
+.arrow:hover {
+  filter: brightness(150%) hue-rotate(180deg);
+  transition: 1s;
 }

@@ -4,16 +4,16 @@
 {% block content %}
 <div id="flyer-cards-container">
     {% include 'navbar.html' %}
-    <div class="container-fluid">
+    <div class="container-fluid pb-5">
         <div class="row m-3">
             {% for anime in animes %}
             <div class="col-md-3 col-lg-2 py-1">
                 <a href="{% url 'animes:anime_details' anime.mal_id %}">
-                    <div class="card-flyer mt-3">
-                        <div class="image-box">
-                            <img src="{{ anime.images.jpg.image_url }}" class="image-box img-fluid w-100" alt="{{anime.title}}">
+                    <div class="card-flyer mt-3" style="background-color: #ffffff00; height: 90%;">
+                        <div class="image-box d-flex align-items-center h-100" >
+                            <img src="{{ anime.images.jpg.image_url }}" class="img-fluid w-100" alt="{{anime.title}}">
                                 <div class="hidden-card text-center position-absolute text-dark fs-3 fw-bold h-100 w-100" id="hidden-card">
-                                    <div class="">{{ anime.title|truncatechars:42 }}</div>
+                                    <div class="fs-5">{{ anime.title|truncatechars:36 }}</div>
                                     <div class="d-flex justify-content-center">
                                         <form action="{% url 'animes:add_to_watchlist' anime.mal_id %}" method="post">
                                             {% csrf_token %}
@@ -34,6 +34,25 @@
             {% endfor %}
         </div>
     </div>
+
+    <div class="pagination col-3 mx-auto mt-5 mb-4 rounded-pill" style="z-index: 2;">
+        <span class="step-links p-1">
+            {% if animes.has_previous %}
+                <a href="?page=1">&laquo; |</a>
+                <a href="?page={{ animes.previous_page_number }}">&#8249;</a>
+            {% endif %}
+    
+            <span class="current">
+                {{ animes.number }} of {{ animes.paginator.num_pages }}
+            </span>
+    
+            {% if animes.has_next %}
+                <a href="?page={{ animes.next_page_number }}">&#8250;</a>
+                <a class="color: #55ddee" href="?page={{ animes.paginator.num_pages }}">| &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
 </div>
 <script src="{% static '/js/script.js' %}"></script>
 {% endblock %}

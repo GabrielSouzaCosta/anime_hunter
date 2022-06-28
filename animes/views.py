@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from .scripts.animes import search_anime, get_anime, get_top_animes, get_upcoming_animes
+from .scripts.animes import get_random_animes, search_anime, get_anime, get_top_animes, get_upcoming_animes
 import asyncio
 from pprint import pprint
 from django.contrib.auth.decorators import login_required
@@ -12,15 +12,65 @@ def homepage(request):
     return render (request, 'animes/index.html')
 
 def search_animes_view(request):
-    if request.GET['query']:
+    if request.GET.get('query'):
         query = request.GET.get('query')
-        animes = asyncio.run(search_anime(request.GET['query']))
-        paginator = Paginator(animes, 24)
-        page_number = request.GET.get('page')
+        if request.GET.get('page'):
+            response = search_anime(query, request.GET.get('page'))
+        else:
+            response = search_anime(query=query, page=1)
+
+        animes = response['data']
+        api_pagination = response['pagination']
+        
+        paginator = Paginator(animes, per_page=18)
+        page_number = api_pagination['current_page']
         page_obj = paginator.get_page(page_number)
+        paginator.num_pages = api_pagination['last_visible_page']
+        page_obj.number = page_number
+
         return render(request, 'animes/search_result.html', {'animes': page_obj, 'query': query})
     else:
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+@xframe_options_exempt
+def top_animes(request):
+    if request.GET.get('page'):
+        response = get_top_animes(request.GET.get('page'))
+    else:
+        response = get_top_animes(1)
+
+    animes = response['data']
+    api_pagination = response['pagination']
+
+    paginator = Paginator(animes, per_page=24)
+    page_number = response['pagination']['current_page']
+    page_obj = paginator.get_page(page_number)
+    paginator.num_pages = api_pagination['last_visible_page']
+    page_obj.number = api_pagination['current_page']
+    
+    return render(request, 'animes/top_animes.html', {'animes': page_obj})
+
+def upcoming_animes(request):
+    if request.GET.get('page'):
+        response = get_upcoming_animes(request.GET.get('page'))
+    else:
+        response = get_upcoming_animes(1)
+
+    animes = response['data']
+    api_pagination = response['pagination']
+
+    paginator = Paginator(animes, per_page=24)
+    page_number = api_pagination['current_page']
+    page_obj = paginator.get_page(page_number)
+    paginator.num_pages = api_pagination['last_visible_page']
+    page_obj.number = page_number
+
+    return render(request, 'animes/upcoming_animes.html', {'animes': page_obj})
+
+@xframe_options_exempt
+def discover(request):
+    animes = get_random_animes()
+    return render(request, 'animes/discover.html', {'animes': animes})
 
 @xframe_options_exempt
 def anime_details(request, id):
@@ -49,21 +99,6 @@ def anime_details(request, id):
 
     context['anime'] = anime
     return render(request, 'animes/anime_details.html', context=context)
-
-@xframe_options_exempt
-def top_animes(request):
-    animes = get_top_animes()
-    return render(request, 'animes/top_animes.html', {'animes': animes})
-
-def upcoming_animes(request):
-    animes = get_upcoming_animes()
-    return render(request, 'animes/upcoming_animes.html', {'animes': animes})
-
-@xframe_options_exempt
-def discover(request):
-    # Render a page with random animes
-    animes = get_upcoming_animes()
-    return render(request, 'animes/discover.html', {'animes': animes})
 
 @login_required
 def add_favorite(request, anime_id):

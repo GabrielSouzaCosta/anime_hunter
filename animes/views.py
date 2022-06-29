@@ -21,6 +21,9 @@ def search_animes_view(request):
 
         animes = response['data']
         api_pagination = response['pagination']
+        for anime in animes:
+            anime['is_favorite'] = Favorite.objects.filter(anime_id = anime['mal_id'], user = request.user).exists()
+            anime['is_on_watchlist'] = Watchlist_item.objects.filter(anime_id = anime['mal_id'], user = request.user).exists()
         
         paginator = Paginator(animes, per_page=18)
         page_number = api_pagination['current_page']
@@ -41,14 +44,17 @@ def top_animes(request):
 
     animes = response['data']
     api_pagination = response['pagination']
-
+    if request.user.is_anonymous == False:
+        for anime in animes:
+            anime['is_favorite'] = Favorite.objects.filter(anime_id = anime['mal_id'], user = request.user).exists()
+            anime['is_on_watchlist'] = Watchlist_item.objects.filter(anime_id = anime['mal_id'], user = request.user).exists()
     paginator = Paginator(animes, per_page=24)
     page_number = response['pagination']['current_page']
     page_obj = paginator.get_page(page_number)
     paginator.num_pages = api_pagination['last_visible_page']
     page_obj.number = api_pagination['current_page']
     
-    return render(request, 'animes/top_animes.html', {'animes': page_obj})
+    return render(request, 'animes/animes.html', {'animes': page_obj})
 
 def upcoming_animes(request):
     if request.GET.get('page'):
@@ -58,6 +64,10 @@ def upcoming_animes(request):
 
     animes = response['data']
     api_pagination = response['pagination']
+    if request.user.is_anonymous == False:
+        for anime in animes:
+            anime['is_favorite'] = Favorite.objects.filter(anime_id = anime['mal_id'], user = request.user).exists()
+            anime['is_on_watchlist'] = Watchlist_item.objects.filter(anime_id = anime['mal_id'], user = request.user).exists()
 
     paginator = Paginator(animes, per_page=24)
     page_number = api_pagination['current_page']
@@ -65,7 +75,7 @@ def upcoming_animes(request):
     paginator.num_pages = api_pagination['last_visible_page']
     page_obj.number = page_number
 
-    return render(request, 'animes/upcoming_animes.html', {'animes': page_obj})
+    return render(request, 'animes/animes.html', {'animes': page_obj})
 
 @xframe_options_exempt
 def discover(request):
@@ -89,11 +99,8 @@ def anime_details(request, id):
         context = {'is_favorite': is_favorite, 'is_on_watchlist': is_on_watchlist, 'episodes_watched': episodes_watched }
     try:
         if anime['episodes'] != 0: 
-            if anime['episodes'] == 1:
                 episodes = range(1, anime['episodes'] + 1)
-            else:
-                episodes = range(1, anime['episodes'])
-            context['range'] = episodes
+        context['range'] = episodes
     except:
         context['range'] = []
 
@@ -164,6 +171,7 @@ def set_episodes(request, anime_id):
     if request.method == 'POST':
         if request.POST['is_favorite'] == 'True':
             item = Favorite.objects.filter(anime_id = anime_id, user = request.user).first()
+            print(request.POST['episode'])
             item.episodes_watched = request.POST['episode']
             item.save()
         if request.POST['is_on_watchlist'] == 'True':

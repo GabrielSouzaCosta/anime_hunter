@@ -5,8 +5,8 @@ body {
 }
 
 .logo:hover {
-  color: #bd1313;
-  transition: color 1s;
+  color: #a2d2ff;
+  transition: all 1s;
 }
 
 img {
@@ -133,7 +133,8 @@ img {
   font-size: larger;
 }
 
-.arrow:hover {
+.make-white:hover {
+  color: white;
   filter: brightness(150%) hue-rotate(180deg);
-  transition: 1s;
+  transition: 0.3s;
 }

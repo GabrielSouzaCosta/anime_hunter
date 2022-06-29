@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="flyer-cards-container">
+    {% include 'navbar.html' %}
+    <div class="container-fluid pb-5">
+        <div class="row m-3">
+            {% for anime in animes %}
+            <div class="col-md-3 col-lg-2 py-1">
+                <a href="{% url 'animes:anime_details' anime.mal_id %}">
+                    <div class="card-flyer mt-3" style="background-color: #0000000d; height: 90%;">
+                        <div class="image-box d-flex align-items-center h-100">
+                            <img src="{{ anime.images.jpg.image_url }}" class="img-fluid w-100" alt="{{anime.title}}">
+                                <div class="hidden-card text-center position-absolute text-dark fs-3 fw-bold h-100 w-100" id="hidden-card">
+                                    <div class="fs-5">{{ anime.title|truncatechars:36 }}</div>
+                                    <div class="d-flex justify-content-center">
+                                        
+                                        
+                                        {% if anime.is_favorite %}
+                                            <form action="{% url 'animes:remove_favorite' anime.mal_id %}" method="post">
+                                                {% csrf_token %}
+                                                <button class="btn" type="submit">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="red" width="32" class="bi bi-heart-fill m-1" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        {% else %}
+                                            <form action="{% url 'animes:add_favorite' anime.mal_id %}" method="post">
+                                                {% csrf_token %}
+                                                <button class="btn" type="submit">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" class="bi bi-heart-fill icon m-1" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                                    </svg>
+                                                </button>
+                                                <input type="hidden" name="name" value="{{ anime.title }}">
+                                                <input type="hidden" name="image_url" value="{{ anime.images.jpg.image_url }}">
+                                                <input type="hidden" name="episodes" value="{{ anime.episodes }}">
+                                            </form>
+                                        {% endif %}
+
+                                        {% if anime.is_on_watchlist %}
+                                        <form action="{% url 'animes:remove_from_watchlist' anime.mal_id %}" method="post">
+                                            {% csrf_token %}
+                                            <button class="btn" type="submit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="32" fill="rgb(236, 118, 21)" class="bi bi-clock-fill m-1" viewBox="0 0 16 16">
+                                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                        {% else %}
+                                            <form action="{% url 'animes:add_to_watchlist' anime.mal_id %}" method="post">
+                                                {% csrf_token %}
+                                                <button class="btn" type="submit">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" fill="currentColor" class="bi bi-clock-fill watch-icon m-1" viewBox="0 0 16 16">
+                                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                                    </svg>
+                                                </button>
+                                                <input type="hidden" name="name" value="{{ anime.title }}">
+                                                <input type="hidden" name="image_url" value="{{ anime.images.jpg.image_url }}">
+                                            </form>
+                                        {% endif %}
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="pagination col-3 mx-auto mt-5 mb-4 rounded-pill" >
+        <span class="step-links p-1" style="z-index: 1;">
+            {% if animes.has_previous %}
+                <a class="make-white" style="z-index: 2;" href="?page=1">&laquo; |</a>
+                <a class="make-white" style="z-index: 2;" href="?page={{ animes.previous_page_number }}">&#8249;</a>
+            {% endif %}
+    
+            <span class="current make-white">
+                {{ animes.number }} of {{ animes.paginator.num_pages }}
+            </span>
+    
+            {% if animes.has_next %}
+                <a class="make-white" href="?page={{ animes.next_page_number }}">&#8250;</a>
+                <a class="make-white" href="?page={{ animes.paginator.num_pages }}">| &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+</div>
+<script src="{% static '/js/script.js' %}"></script>
+{% endblock %}

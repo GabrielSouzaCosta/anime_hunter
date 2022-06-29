@@ -10,7 +10,8 @@
                 <img src="{{ anime.images.jpg.image_url }}" alt="" class="btn img-fluid float-start me-2 w-100">
                 {% if anime.rank %}<span class="fw-bold fs-2 ms-3">Rank: #{{ anime.rank }}</span>{% endif %}
                 {% if anime.episodes %}<span class="fs-2">{{ anime.episodes }} episodes</span>{% endif %}
-                <p>Status: {{ anime.status }}</p>
+                <p class="mb-1 ">Status: {{ anime.status }}</p>
+                <p>Rating: {{ anime.score }}</p>
                 <span>
                     {% if user.is_authenticated %}
                         {% if is_favorite %}

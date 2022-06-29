@@ -1,77 +1,81 @@
-<div class="accordion d-flex flex-column flex-md-row mt-3" id="accordionExample">
-    <div class="accordion-item col-12 col-md-6">
-      <h2 class="accordion-header" id="headingOne">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Synopsis
-        </button>
+<div class="d-flex flex-column justify-content-center flex-md-row w-100 mt-3">
+
+    <div class="col-12 col-md-5 mt-2 mt-md-0 me-3">
+      <h2 style="background-color: #ffafcc;" class="card text-center p-1">
+          Episodes / OVA'S / Movies
       </h2>
-      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" >
-        <div class="accordion-body">
+      <div class="d-flex align-items-center justify-content-center bg-dark text-white py-1">
+          <h4 class="m-0 p-0 me-2">Episodes</h4>
+          {% if episodes_watched != range|last %}
+            {% if is_on_watchlist == True or is_favorite == True %}
+              {% if episodes_watched == anime.episodes %}
+              <input type="checkbox" name="episode" checked onclick="this.form.submit()" value="{{ range|last }}" id="watched_everything">
+              {% else %}
+              <form action="{% url 'animes:set_episodes' anime.mal_id %}" method="post">
+                {% csrf_token %}
+                <input type="checkbox" name="episode"  onclick="this.form.submit()" value="{{ range|last }}" id="watched_everything">
+                <input type="hidden" name="is_favorite" value="{{ is_favorite }}"> <input type="hidden" name="is_on_watchlist" value="{{ is_on_watchlist }}">
+              </form>
+              {% endif %}
+            {% endif %}
+          {% endif %}
+      </div>
+
+      <div style="background-color: rgba(0, 0, 0, 0.89);" class="text-white px-2">
+        <ul style="list-style: none;" class="mt-1 p-0">
+          <div class="row">
+            {% for ep in range %}
+            <div class="col-4 col-md-4 col-lg-3 text-center">
+              <form action="{% url 'animes:set_episodes' anime.mal_id %}" method="post" class="text-start">
+                {% csrf_token %}
+                  {% if is_on_watchlist == True or is_favorite == True %}
+                    {% if ep > episodes_watched %}
+                      <input type="checkbox" onclick="this.form.submit()">
+                    {% else %}
+                      <input type="checkbox" checked onclick="this.form.submit()">
+                    {% endif %}
+                  {% endif %}
+                  Ep {{ ep }}
+                
+                <input type="hidden" name="episode" value="{{ ep }}">
+                <input type="hidden" name="is_favorite" value="{{ is_favorite }}">
+                <input type="hidden" name="is_on_watchlist" value="{{ is_on_watchlist }}">
+              </form>
+            </div>
+            {% endfor %}
+          </form>
+        </ul>
+        {% if anime.related.items %}
+          <h4>Movies | Ova's</h4>
+        {% endif %}
+
+        {% for rel, v in anime.related.items %}  
+          {% if rel == "Side story" %}
+            <ul style="list-style: none;" class="mt-1 p-0">
+              {% for r in v %}
+              <li>
+                {% if is_on_watchlist == True or is_favorite == True %}
+                  <input type="checkbox" name="episode" id="watched">
+                {% endif %}
+                {{ r.name }}
+              </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endfor %}  
+      </div>   
+    </div> 
+
+    <div class="col-12 col-md-5 mb-4 mb-0">
+      <h2 style="background-color: #bde0fe;" class="card text-center p-1">
+          Synopsis
+      </h2>
+      <div>
+        <div class="bg-dark rounded text-white p-3">
             {{ anime.synopsis }}
         </div>
       </div>
     </div>
-    <div class="accordion-item col-12 col-md-6">
-      <h2 class="accordion-header" id="headingTwo">
-        <button class="accordion-button collapsed w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Seasons / OVA'S / Movies
-        </button>
-      </h2>
-      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" >
-        <div class="accordion-body">
-            <div class="d-flex align-items-center justify-content-start">
-              <h4 class="m-0 p-0 me-2">Episodes</h4>
-              {% if is_on_watchlist == True or is_favorite == True %}
-                {% if episodes_watched == anime.episodes %}
-                <input type="checkbox" class="mt-1" name="episode" checked onclick="this.form.submit()" value="{{ range|last }}" id="watched_everything">
-                {% else %}
-                <form action="{% url 'animes:set_episodes' anime.mal_id %}" method="post">
-                  {% csrf_token %}
-                  <input type="checkbox" class="mt-1" name="episode"  onclick="this.form.submit()" value="{{ range|last }}" id="watched_everything">
-                  <input type="hidden" name="is_favorite" value="{{ is_favorite }}"> <input type="hidden" name="is_on_watchlist" value="{{ is_on_watchlist }}">
-                </form>
-                {% endif %}
-              {% endif %}
-            </div>
 
-            <ul style="list-style: none;" class="mt-1 p-0">
-              {% for ep in range %}
-                <form action="{% url 'animes:set_episodes' anime.mal_id %}" method="post">
-                  {% csrf_token %}
-                  <li>
-                    {% if is_on_watchlist == True or is_favorite == True %}
-                      {% if ep > episodes_watched %}
-                        <input type="checkbox" name="episode" onclick="this.form.submit()" value="{{ ep }}" id="watched">
-                      {% else %}
-                        <input type="checkbox" checked name="episode-watched" onclick="this.form.submit()" value="{{ ep }}" id="not-watched">
-                      {% endif %}
-                    {% endif %}
-                    Episode {{ ep }}
-                  </li>
-                  <input type="hidden" name="is_favorite" value="{{ is_favorite }}">
-                  <input type="hidden" name="is_on_watchlist" value="{{ is_on_watchlist }}">
-                </form>
-                {% endfor %}
-          </form>
-          </ul>
-          {% if anime.related.items %}
-          <h4>Movies | Ova's</h4>
-          {% endif %}
-          {% for rel, v in anime.related.items %}  
-            {% if rel == "Side story" %}
-              <ul style="list-style: none;" class="mt-1 p-0">
-                {% for r in v %}
-                <li>
-                  {% if is_on_watchlist == True or is_favorite == True %}
-                  <input type="checkbox" name="episode" id="watched">
-                  {% endif %}
-                  {{ r.name }}
-                </li>
-                {% endfor %}
-              </ul>
-            {% endif %}
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-  </div>
+</div>
+    

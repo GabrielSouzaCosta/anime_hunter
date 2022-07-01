@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from pickle import FALSE
 import environ
 import os
 
@@ -133,13 +134,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 # Uncomment the line below when it's on production
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = 'static/'
 
 # Comment the line below when it's on development
 STATICFILES_DIRS = [
-    # BASE_DIR / "static",
+    BASE_DIR / "static",
 ]
+
 
 
 # Default primary key field type

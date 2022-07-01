@@ -1,12 +1,11 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from .scripts.animes import get_random_animes, search_anime, get_anime, get_top_animes, get_upcoming_animes
-import asyncio
-from pprint import pprint
 from django.contrib.auth.decorators import login_required
 from .models import Favorite, Watchlist_item
 from django.core.paginator import Paginator
 from django.views.decorators.clickjacking import xframe_options_exempt
+from django.template import RequestContext
 
 def homepage(request):
     return render (request, 'animes/index.html')
@@ -212,6 +211,9 @@ def set_watched(request, anime_id):
 
 @xframe_options_exempt
 def favorites_test(request):
-    animes = get_top_animes()[:5]
+    animes = get_top_animes(1)['data'][:5]
     context = {'tiers': ['S', 'A', 'B'], 'favorites': animes}
     return render(request, 'animes/favorites_test.html', context)
+
+def handler404(request, exception):
+    return render(request, '404.html')

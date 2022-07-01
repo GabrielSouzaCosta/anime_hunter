@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="vh-100">
+    {% include 'navbar.html' %}
+    <div class="container h-75">
+        <div class="d-flex flex-column justify-content-center align-items-center w-100 h-100">
+            <h1>404 ERROR</h1>
+            <h2>
+                Ops... It seems like you have arrived in another dimension.
+            </h2>
+            <a class="text-uppercase fw-bold link-warning" href="{% url 'animes:homepage' %}">Go back to safety</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

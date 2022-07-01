@@ -4,13 +4,26 @@ body {
   font-family: 'Fredoka One', cursive;
 }
 
+img {
+  cursor: pointer;
+}
+
+#homepage-video {
+  filter: brightness(85%);
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
 .logo:hover {
   color: #a2d2ff;
   transition: all 1s;
-}
-
-img {
-  cursor: pointer;
 }
 
 .icon {
@@ -137,4 +150,25 @@ img {
   color: white;
   filter: brightness(150%) hue-rotate(180deg);
   transition: 0.3s;
+}
+
+.home-img {
+  filter: brightness(50%);
+}
+
+.iluminate {
+  filter: brightness(110%);
+  box-shadow: 1px 1px 75px 1px rgba(233,196,106,0.38);
+-webkit-box-shadow: 1px 1px 75px 1px rgba(233,196,106,0.38);
+-moz-box-shadow: 1px 1px 75px 1px rgba(233,196,106,0.38);
+  transition: all 1s;
+}
+
+.card-home {
+  border: none;
+  background: rgba(242, 7, 81, 0.3);
+  background: linear-gradient(90deg, rgba(242, 7, 81, 0.3) 0%, rgba(249, 172, 144, 0.301) 100%);
+  background: -moz-linear-gradient(90deg, hsla(341, 94%, 49%, 0.3) 0%, hsla(16, 90%, 77%, 0.3) 100%);
+  background: -webkit-linear-gradient(90deg, hsla(341, 94%, 49%, 0.3) 0%, hsla(16, 90%, 77%, 0.3) 100%);
+  backdrop-filter: blur(40px);
 }

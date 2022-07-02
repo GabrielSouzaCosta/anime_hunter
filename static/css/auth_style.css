@@ -30,21 +30,28 @@ h2 {
 
 .btn-nowatching {
     background-image: linear-gradient(90deg, hsla(330, 36%, 53%, 1) 0%, hsla(289, 68%, 19%, 1) 100%);
-    font-family: 'Nunito Sans', sans-serif;
 }
 
 .btn-watching {
-    background-image: linear-gradient(90deg, hsla(269, 97%, 37%, 1) 0%, hsla(320, 77%, 55%, 1) 57%, rgb(117, 20, 96) 100%);
-    font-family: 'Nunito Sans', sans-serif;
+    background: hsla(350, 73%, 44%, 1);
+    background: linear-gradient(135deg, hsla(350, 73%, 44%, 1) 0%, hsla(274, 65%, 12%, 1) 100%);
+    background: -moz-linear-gradient(135deg, hsla(350, 73%, 44%, 1) 0%, hsla(274, 65%, 12%, 1) 100%);
+    background: -webkit-linear-gradient(135deg, hsla(350, 73%, 44%, 1) 0%, hsla(274, 65%, 12%, 1) 100%);
 }
 
 .btn-watched {
-    background-image: linear-gradient(90deg, hsla(269, 97%, 37%, 1) 0%, hsla(320, 77%, 55%, 1) 57%, rgb(107, 39, 92) 100%);
-    font-family: 'Nunito Sans', sans-serif;
+    background: hsla(22, 100%, 78%, 1);
+    background: linear-gradient(90deg, hsla(22, 100%, 78%, 1) 0%, hsla(2, 78%, 62%, 1) 100%);
+    background: -moz-linear-gradient(90deg, hsla(22, 100%, 78%, 1) 0%, hsla(2, 78%, 62%, 1) 100%);
+    background: -webkit-linear-gradient(90deg, hsla(22, 100%, 78%, 1) 0%, hsla(2, 78%, 62%, 1) 100%);
 }
 
+.btn-nowatching, .btn-watching, .btn-watched {
+    font-family: 'Nunito Sans', sans-serif;
+    margin-bottom: 1rem;
+}
 
 .btn-nowatching:hover, .btn-watching:hover, .btn-watched:hover {
-    filter: hue-rotate(30deg);
+    filter: hue-rotate(15deg) brightness(110%);
     transition: filter 1s;
 }

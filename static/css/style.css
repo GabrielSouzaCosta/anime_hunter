@@ -10,8 +10,8 @@ img {
 
 #homepage-video {
   filter: brightness(85%);
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   position: fixed;
   left: 0;
@@ -19,6 +19,68 @@ img {
   top: 0;
   bottom: 0;
   z-index: -1;
+}
+
+.iluminate {
+  filter: brightness(110%);
+  box-shadow: 1px 1px 75px 1px rgba(233,196,106,0.38);
+-webkit-box-shadow: 1px 1px 75px 1px rgba(233,196,106,0.38);
+-moz-box-shadow: 1px 1px 75px 1px rgba(233,196,106,0.38);
+  transition: all 1s;
+}
+
+.iluminate:hover{
+  filter: blur(3px);
+  transition: all 1.3s;
+}
+
+.card-page div {
+  pointer-events: none;
+  background-color: #f08080e1;
+  position: absolute;
+  color: black;
+  visibility: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+}
+
+.card-page:hover div {
+  visibility: visible;
+}
+
+.card-home {
+  cursor: pointer;
+  border: none;
+  background: rgba(242, 7, 81, 0.3);
+  background: linear-gradient(90deg, rgba(242, 7, 81, 0.3) 0%, rgba(249, 172, 144, 0.301) 100%);
+  background: -moz-linear-gradient(90deg, hsla(341, 94%, 49%, 0.3) 0%, hsla(16, 90%, 77%, 0.3) 100%);
+  background: -webkit-linear-gradient(90deg, hsla(341, 94%, 49%, 0.3) 0%, hsla(16, 90%, 77%, 0.3) 100%);
+  backdrop-filter: blur(40px);
+}
+
+.card-home:hover{
+  filter: drop-shadow(5px 5px 7px #00000044) hue-rotate(60deg);
+  transition: all 1s;
+}
+
+.btn-home {
+  cursor: pointer;
+  background-color: #000000d0;
+  border: none;
+  color: #ffffffea;
+}
+
+.btn-home:hover {
+  filter: brightness(120%);
+  transition: all 1s;
+}
+
+.btn-home span {
+  background: #72DDF7;
+  background: linear-gradient(to bottom left, #72DDF7 0%, #FDC5F5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .logo:hover {
@@ -152,23 +214,3 @@ img {
   transition: 0.3s;
 }
 
-.home-img {
-  filter: brightness(50%);
-}
-
-.iluminate {
-  filter: brightness(110%);
-  box-shadow: 1px 1px 75px 1px rgba(233,196,106,0.38);
--webkit-box-shadow: 1px 1px 75px 1px rgba(233,196,106,0.38);
--moz-box-shadow: 1px 1px 75px 1px rgba(233,196,106,0.38);
-  transition: all 1s;
-}
-
-.card-home {
-  border: none;
-  background: rgba(242, 7, 81, 0.3);
-  background: linear-gradient(90deg, rgba(242, 7, 81, 0.3) 0%, rgba(249, 172, 144, 0.301) 100%);
-  background: -moz-linear-gradient(90deg, hsla(341, 94%, 49%, 0.3) 0%, hsla(16, 90%, 77%, 0.3) 100%);
-  background: -webkit-linear-gradient(90deg, hsla(341, 94%, 49%, 0.3) 0%, hsla(16, 90%, 77%, 0.3) 100%);
-  backdrop-filter: blur(40px);
-}

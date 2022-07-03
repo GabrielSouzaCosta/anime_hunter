@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-from pickle import FALSE
 import environ
 import os
 
@@ -31,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DATABASE_PWD = os.environ.get('DATABASE_PWD')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 

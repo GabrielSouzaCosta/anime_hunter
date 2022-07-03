@@ -20,9 +20,10 @@ def search_animes_view(request):
 
         animes = response['data']
         api_pagination = response['pagination']
-        for anime in animes:
-            anime['is_favorite'] = Favorite.objects.filter(anime_id = anime['mal_id'], user = request.user).exists()
-            anime['is_on_watchlist'] = Watchlist_item.objects.filter(anime_id = anime['mal_id'], user = request.user).exists()
+        if request.user.is_anonymous == False:
+            for anime in animes:
+                anime['is_favorite'] = Favorite.objects.filter(anime_id = anime['mal_id'], user = request.user).exists()
+                anime['is_on_watchlist'] = Watchlist_item.objects.filter(anime_id = anime['mal_id'], user = request.user).exists()
         
         paginator = Paginator(animes, per_page=18)
         page_number = api_pagination['current_page']

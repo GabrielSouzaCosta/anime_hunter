@@ -89,15 +89,14 @@ WSGI_APPLICATION = 'anime_hunter.wsgi.application'
 import dj_database_url
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'anime_hunter',
-    #     'USER': 'gabrielsc',
-    #     'PASSWORD': DATABASE_PWD,
-    #     'HOST': 'localhost',
-    #     'PORT': '5432',
-    # },
-    'default': dj_database_url.config()
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('NAME'),
+        'USER': os.environ.get('USER'),
+        'PASSWORD': DATABASE_PWD,
+        'HOST': os.environ.get('HOST'),
+        'PORT': os.environ.get('PORT'),
+    },
 }
 
 

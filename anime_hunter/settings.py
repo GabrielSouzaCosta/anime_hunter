@@ -161,7 +161,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = "gabrielsscosta2010@hotmail.com"
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+EMAIL_HOST_PASSWORD = str(os.environ.get('EMAIL_PASSWORD'))
 
 DEFAULT_FROM_EMAIL = 'gabrielsscosta2010@hotmail.com'
 

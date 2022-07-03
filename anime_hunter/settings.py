@@ -91,17 +91,17 @@ import dj_database_url
 
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': os.environ.get('DATABASE_NAME'),
-    #     'USER': os.environ.get('DATABASE_USERNAME'),
-    #     'PASSWORD': os.environ.get('DATABASE_PWD'),
-    #     'HOST': os.environ.get('DATABASE_HOST'),
-    #     'PORT': 5432,
-    # },
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'USER': os.environ.get('DATABASE_USERNAME'),
+        'PASSWORD': os.environ.get('DATABASE_PWD'),
+        'HOST': os.environ.get('DATABASE_HOST'),
+        'PORT': 5432,
+    },
 }
 
-DATABASES['default'] = dj_database_url.config()
+# DATABASES['default'] = dj_database_url.config()
 
 
 # Password validation

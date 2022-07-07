@@ -7,72 +7,71 @@
         <video autoplay muted loop id="homepage-video" poster="{% static '/images/poster.png' %}">
             <source src="{% static 'home.mp4' %}" type="video/mp4">
         </video>
-        <div class="row justify-content-center m-auto vh-100" >
-                <h1 class="col-12 text-center pt-4 pb-3"> 
-                    Simplify and have fun with your anime watchlist
-                </h1>
+        <div class="row justify-content-center m-auto min-vh-100" >
+            <h1 class="col-12 text-center pt-4 pb-3"> 
+                Simplify and have fun with your anime watchlist
+            </h1>
 
-                <div class="card-page position-relative col-12 col-md-5 col-lg-5 mb-4 mb-md-0">
-                    <img src="{% static 'images/page1.png' %}" alt="favorites page" onmouseenter="this.classList.add('iluminate')" class="w-100 text-center">
-                    <div class="col-9 col-md-8 col-lg-6 p-4 fs-5 text-center rounded">
-                        Favorite Page in Tier List Format
-                    </div>
+            <div class="card-page position-relative col-12 col-md-10 col-lg-5 mb-4 mb-lg-0">
+                <img src="{% static 'images/page1.png' %}" alt="favorites page" onmouseenter="this.classList.add('iluminate')" class="w-100 text-center">
+                <div class="col-9 col-md-8 col-lg-6 p-4 fs-5 text-center rounded">
+                    Favorite Page in Tier List Format
                 </div>
-                <div class="card-page position-relative col-12 col-md-5 col-lg-5">
-                    <img src="{% static 'images/page2.png' %}" alt="discover animes page" onmouseenter="this.classList.add('iluminate')" class="w-100 text-center m-auto">
-                    <div class="col-9 col-md-8 col-lg-6 p-4 fs-5 text-center rounded" >
-                        Discover Animes with Random Animes Generator
-                    </div>
+            </div>
+            <div class="card-page position-relative col-12 col-md-10 col-lg-5">
+                <img src="{% static 'images/page2.png' %}" alt="discover animes page" onmouseenter="this.classList.add('iluminate')" class="w-100 text-center m-auto">
+                <div class="col-9 col-md-8 col-lg-6 p-4 fs-5 text-center rounded" >
+                    Discover Animes with Random Animes Generator
                 </div>
-                
-                <div class="card-page position-relative m-auto col-12 col-md-5 col-lg-5 p-1 my-4">
-                    <img src="{% static 'images/page3.png' %}" alt="favorites page" onmouseenter="this.classList.add('iluminate')" class="w-100">
-                    <div class="col-9 col-md-8 col-lg-6 p-4 fs-5 text-center rounded">
-                        Favorites Page in Tier List Format
-                    </div>
-                </div>
-
-
-            <div class="row m-auto mt-5" style="height: 70vh;">
-                <div class="col">
-                    <div class="card-home col-12 col-md-5 col-lg-5 offset-md-7 align-self-end pt-4 pb-5 mb-3 mb-md-0">
-                        <div class="header d-flex justify-content-center pb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" onmouseenter="this.style.fill = '#ffafcc'" width="120" class="ps-2 bi bi-heart-fill icon" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                            </svg>
-                        </div>
-                        <div class="card-body text-center">
-                            <h3 style="opacity: 0.85;">Add animes to your Favorites and rank them in a <strong>Tier List</strong></h3>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card-home col-12 col-md-5 col-lg-5 pt-3 pb-2">
-                        <div class="header d-flex justify-content-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="120" onmouseenter="this.style.fill = '#a2d2ff'" fill="currentColor" class="bi bi-clock-fill watch-icon m-1" viewBox="0 0 16 16">
-                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
-                            </svg>
-                        </div>
-                        <div style="opacity: 0.85;" class="card-body text-center">
-                            <h3>Manage your <strong>Watchlist</strong>:</h3>
-                            <ul style="list-style-type: none;" class="p-0 fs-4">
-                                <li>To watch</li>
-                                <li>Watching</li>
-                                <li>Watched</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            </div>
             
-                <div class="col-12 m-auto text-center my-4 pb-4" >
-                    <a href="{% url 'user:login' %}" class="btn-home rounded-pill p-3 fs-3"  style="text-decoration: none;">
-                        <span>Enter the Anime World</span>
-                    </a>
+            <div class="card-page position-relative m-auto col-12 col-md-10 col-lg-5 p-1 my-4">
+                <img src="{% static 'images/page3.png' %}" alt="favorites page" onmouseenter="this.classList.add('iluminate')" class="w-100">
+                <div class="col-9 col-md-8 col-lg-6 p-4 fs-5 text-center rounded">
+                    Favorites Page in Tier List Format
                 </div>
+            </div> 
+        </div>
 
+        <div class="row m-auto justify-content-center align-items-center mt-5" style="height: 68vh;">
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card-home py-5 pb-5 mb-3 mb-md-0">
+                    <div class="header d-flex justify-content-center pb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" onmouseenter="this.style.fill = '#ffafcc'" width="120" class="ps-2 bi bi-heart-fill icon" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                        </svg>
+                    </div>
+                    <div class="card-body text-center">
+                        <h3 style="opacity: 0.85;">Add animes to your Favorites and rank them in a <strong>Tier List</strong></h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card-home pt-3 pb-0">
+                    <div class="header d-flex justify-content-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="120" onmouseenter="this.style.fill = '#a2d2ff'" fill="currentColor" class="bi bi-clock-fill watch-icon m-1" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                        </svg>
+                    </div>
+                    <div style="opacity: 0.85;" class="card-body text-center">
+                        <h3>Manage your <strong>Watchlist</strong>:</h3>
+                        <ul style="list-style-type: none;" class="p-0 fs-4">
+                            <li>To watch</li>
+                            <li>Watching</li>
+                            <li>Watched</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 text-center my-4 pb-4" >
+                <a href="{% url 'user:login' %}" class="btn-home rounded-pill p-3 fs-3"  style="text-decoration: none;">
+                    <span>Enter the Anime World</span>
+                </a>
             </div>
         </div>
+    
 
     </div>  
 

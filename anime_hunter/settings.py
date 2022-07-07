@@ -14,9 +14,6 @@ from pathlib import Path
 import environ
 import os
 
-env = environ.Env()
-environ.Env.read_env()
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -89,7 +86,6 @@ WSGI_APPLICATION = 'anime_hunter.wsgi.application'
 import dj_database_url
 
 
-
 DATABASES = {
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
@@ -140,6 +136,7 @@ USE_TZ = True
 
 # Uncomment the line below when it's on production
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 STATIC_URL = 'static/'
 
 # Comment the line below when it's on development
